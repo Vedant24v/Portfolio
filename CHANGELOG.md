@@ -168,3 +168,4 @@ Engineering Sprints:
 - [2026-04-22 18:55] seo: embed canonical sitemap.xml and search engine robots.txt
 - [2026-04-29 11:30] seo: add Person and CreativeWork JSON-LD structured metadata
 - [2026-04-29 16:45] perf(bundle): eliminate unused styles and optimize critical CSS rendering
+- [2026-01-10 11:20] refactor(dom): optimize DOM query selectors and caching
