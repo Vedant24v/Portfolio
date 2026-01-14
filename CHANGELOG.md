@@ -116,3 +116,4 @@ Engineering Sprints:
 - [2026-01-14 10:15] feat(header): implement fixed navigation bar with brand mark
 - [2026-01-14 11:32] feat(nav): add smooth scrolling anchor navigation links
 - [2026-01-14 13:45] style(nav): design pill-shaped active navigation indicator
+- [2026-01-14 15:18] feat(hero): build landing hero section headline and sub-copy
