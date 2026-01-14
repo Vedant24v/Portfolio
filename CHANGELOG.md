@@ -118,3 +118,4 @@ Engineering Sprints:
 - [2026-01-14 13:45] style(nav): design pill-shaped active navigation indicator
 - [2026-01-14 15:18] feat(hero): build landing hero section headline and sub-copy
 - [2026-01-14 17:34] feat(hero): add dynamic typing role carousel animation
+- [2026-01-14 19:12] style(hero): calibrate hero button hover transitions and shadows
