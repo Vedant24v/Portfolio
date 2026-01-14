@@ -115,3 +115,4 @@ Engineering Sprints:
 - [2026-01-06 15:42] style(theme): set up initial design system variables and typography
 - [2026-01-14 10:15] feat(header): implement fixed navigation bar with brand mark
 - [2026-01-14 11:32] feat(nav): add smooth scrolling anchor navigation links
+- [2026-01-14 13:45] style(nav): design pill-shaped active navigation indicator
