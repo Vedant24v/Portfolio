@@ -173,3 +173,4 @@ Engineering Sprints:
 - [2026-01-20 10:15] feat(ui): add glassmorphic badge pill component variants
 - [2026-01-20 11:40] feat(icons): bundle boxicons SVG fallbacks for offline viewing
 - [2026-01-20 14:15] style(header): adjust backdrop filter saturation and contrast
+- [2026-01-20 16:30] feat(hero): fine-tune cursor blinking timing on role typewriter
