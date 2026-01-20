@@ -171,3 +171,4 @@ Engineering Sprints:
 - [2026-01-10 11:20] refactor(dom): optimize DOM query selectors and caching
 - [2026-01-10 16:45] style(typography): calibrate heading letter-spacing and line heights
 - [2026-01-20 10:15] feat(ui): add glassmorphic badge pill component variants
+- [2026-01-20 11:40] feat(icons): bundle boxicons SVG fallbacks for offline viewing
