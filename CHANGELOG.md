@@ -121,3 +121,4 @@ Engineering Sprints:
 - [2026-01-14 19:12] style(hero): calibrate hero button hover transitions and shadows
 - [2026-01-26 11:05] feat(about): create bio narrative and academic profile card
 - [2026-01-26 14:20] feat(about): add MIT-WPU degree and engineering coursework tags
+- [2026-01-26 16:45] style(cards): implement initial glassmorphic backdrop filter styling
