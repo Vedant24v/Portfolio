@@ -178,3 +178,4 @@ Engineering Sprints:
 - [2026-01-20 20:05] perf(canvas): throttle particle animation frame during background tab
 - [2026-01-30 11:30] feat(about): add technical specialization badges to bio
 - [2026-01-30 14:50] feat(about): highlight algorithmic trading and backend interests
+- [2026-01-30 18:15] style(about): add tactile inset border on education card
