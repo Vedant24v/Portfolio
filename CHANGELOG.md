@@ -176,3 +176,4 @@ Engineering Sprints:
 - [2026-01-20 16:30] feat(hero): fine-tune cursor blinking timing on role typewriter
 - [2026-01-20 18:20] style(hero): enhance profile aura rotation gradient balance
 - [2026-01-20 20:05] perf(canvas): throttle particle animation frame during background tab
+- [2026-01-30 11:30] feat(about): add technical specialization badges to bio
