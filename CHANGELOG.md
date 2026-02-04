@@ -124,3 +124,4 @@ Engineering Sprints:
 - [2026-01-26 16:45] style(cards): implement initial glassmorphic backdrop filter styling
 - [2026-01-26 18:30] feat(socials): integrate GitHub, LinkedIn, and email social links
 - [2026-02-04 10:40] feat(experience): draft SDE internship section layout
+- [2026-02-04 16:15] feat(experience): add Atypical Technologies company background
