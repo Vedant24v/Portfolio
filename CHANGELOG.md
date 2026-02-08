@@ -180,3 +180,4 @@ Engineering Sprints:
 - [2026-01-30 14:50] feat(about): highlight algorithmic trading and backend interests
 - [2026-01-30 18:15] style(about): add tactile inset border on education card
 - [2026-02-08 10:45] feat(experience): add Atypical Technologies team role description
+- [2026-02-08 16:20] feat(experience): document brokerage order execution protocol
