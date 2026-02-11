@@ -125,3 +125,4 @@ Engineering Sprints:
 - [2026-01-26 18:30] feat(socials): integrate GitHub, LinkedIn, and email social links
 - [2026-02-04 10:40] feat(experience): draft SDE internship section layout
 - [2026-02-04 16:15] feat(experience): add Atypical Technologies company background
+- [2026-02-11 10:20] feat(experience): document Apt Algo algorithmic trading platform role
