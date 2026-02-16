@@ -185,3 +185,4 @@ Engineering Sprints:
 - [2026-02-16 11:35] feat(cron): document automated midnight market data fetching
 - [2026-02-16 14:00] feat(aws): describe S3 bucket archiving and retention policies
 - [2026-02-16 15:45] refactor(controllers): modularize Express route handlers
+- [2026-02-16 17:30] test(unit): add Jest mocks for brokerage API responses
