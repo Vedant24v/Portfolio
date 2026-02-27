@@ -136,3 +136,4 @@ Engineering Sprints:
 - [2026-02-27 10:30] feat(projects): scaffold 2-column responsive projects showcase grid
 - [2026-02-27 13:15] feat(projects): draft TaskFlow full-stack MERN Kanban card
 - [2026-02-27 16:05] feat(projects): implement @dnd-kit drag-and-drop architecture specs
+- [2026-02-27 18:40] feat(projects): add JWT refresh token authentication description
