@@ -193,3 +193,4 @@ Engineering Sprints:
 - [2026-03-02 11:50] feat(projects): design Mongoose models for Kanban columns
 - [2026-03-02 14:10] feat(projects): add drag-and-drop collision detection algorithms
 - [2026-03-02 16:25] feat(projects): implement optimistic UI updates on task reorder
+- [2026-03-02 18:05] security(auth): configure HttpOnly cookie flags for JWT tokens
