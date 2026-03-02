@@ -191,3 +191,4 @@ Engineering Sprints:
 - [2026-02-24 16:40] style(timeline): add pulse animation on active internship node
 - [2026-03-02 10:15] feat(projects): draft TaskFlow database schema specifications
 - [2026-03-02 11:50] feat(projects): design Mongoose models for Kanban columns
+- [2026-03-02 14:10] feat(projects): add drag-and-drop collision detection algorithms
