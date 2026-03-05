@@ -140,3 +140,4 @@ Engineering Sprints:
 - [2026-03-05 10:10] feat(projects): draft Repox AI codebase visualization tool card
 - [2026-03-05 11:35] feat(projects): detail FastAPI AST parser and language detectors
 - [2026-03-05 14:00] feat(projects): document Groq Llama 3.3 tutorial generation flow
+- [2026-03-05 15:45] feat(projects): add automated Mermaid.js architecture diagram rendering
