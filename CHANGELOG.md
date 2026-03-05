@@ -142,3 +142,4 @@ Engineering Sprints:
 - [2026-03-05 14:00] feat(projects): document Groq Llama 3.3 tutorial generation flow
 - [2026-03-05 15:45] feat(projects): add automated Mermaid.js architecture diagram rendering
 - [2026-03-05 17:30] feat(projects): add regex-based secret scanning pipeline notes
+- [2026-03-05 19:20] style(projects): design project card thumbnail preview container
