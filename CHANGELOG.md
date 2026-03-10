@@ -195,3 +195,4 @@ Engineering Sprints:
 - [2026-03-02 16:25] feat(projects): implement optimistic UI updates on task reorder
 - [2026-03-02 18:05] security(auth): configure HttpOnly cookie flags for JWT tokens
 - [2026-03-02 19:50] docs(projects): document TaskFlow deployment architecture
+- [2026-03-10 11:35] feat(projects): add Repox abstract syntax tree parser specs
