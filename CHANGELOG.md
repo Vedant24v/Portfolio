@@ -144,3 +144,4 @@ Engineering Sprints:
 - [2026-03-05 17:30] feat(projects): add regex-based secret scanning pipeline notes
 - [2026-03-05 19:20] style(projects): design project card thumbnail preview container
 - [2026-03-13 11:40] feat(projects): add Indus_Mind industrial document RAG system card
+- [2026-03-13 16:25] feat(projects): document Qdrant vector database collection architecture
