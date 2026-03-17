@@ -201,3 +201,4 @@ Engineering Sprints:
 - [2026-03-17 12:45] feat(projects): add automated ERD generation with Mermaid.js
 - [2026-03-17 14:30] security(scanner): implement regex credentials pattern matcher
 - [2026-03-17 16:50] style(modal): style code snippet container with JetBrains Mono
+- [2026-03-17 18:35] style(modal): add custom scrollbar on modal architecture body
