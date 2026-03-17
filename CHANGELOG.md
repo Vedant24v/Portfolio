@@ -199,3 +199,4 @@ Engineering Sprints:
 - [2026-03-10 16:15] feat(projects): configure language detector heuristics
 - [2026-03-17 10:20] feat(projects): integrate Groq Llama 3.3 streaming response
 - [2026-03-17 12:45] feat(projects): add automated ERD generation with Mermaid.js
+- [2026-03-17 14:30] security(scanner): implement regex credentials pattern matcher
