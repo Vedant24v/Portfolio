@@ -148,3 +148,4 @@ Engineering Sprints:
 - [2026-03-21 10:45] feat(projects): add MedTrace pharmaceutical batch record tracker
 - [2026-03-21 13:20] feat(projects): document FDA 21 CFR Part 11 digital signature flow
 - [2026-03-21 15:55] feat(projects): add Automated API Test Framework project metrics
+- [2026-03-21 18:10] feat(projects): add Real-Time Weapon Detector computer vision specs
