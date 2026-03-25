@@ -203,3 +203,4 @@ Engineering Sprints:
 - [2026-03-17 16:50] style(modal): style code snippet container with JetBrains Mono
 - [2026-03-17 18:35] style(modal): add custom scrollbar on modal architecture body
 - [2026-03-25 11:15] feat(projects): document Indus_Mind Qdrant collection setup
+- [2026-03-25 16:40] feat(projects): detail chunking strategy for technical manuals
