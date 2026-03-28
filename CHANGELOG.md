@@ -153,3 +153,4 @@ Engineering Sprints:
 - [2026-03-28 12:30] feat(skills): add interactive skill tags for backend and database stacks
 - [2026-03-28 14:45] style(skills): design skill category cards with gradient icon headers
 - [2026-03-28 16:50] feat(achievements): document AWS certifications and hackathon laurels
+- [2026-03-28 19:10] feat(certs): design achievement credentials verification links
