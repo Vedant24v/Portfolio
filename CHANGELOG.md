@@ -152,3 +152,4 @@ Engineering Sprints:
 - [2026-03-28 10:15] feat(skills): categorize technical skills matrix into 6 domains
 - [2026-03-28 12:30] feat(skills): add interactive skill tags for backend and database stacks
 - [2026-03-28 14:45] style(skills): design skill category cards with gradient icon headers
+- [2026-03-28 16:50] feat(achievements): document AWS certifications and hackathon laurels
