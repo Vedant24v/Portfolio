@@ -210,3 +210,4 @@ Engineering Sprints:
 - [2026-04-03 15:35] feat(projects): document Pytest 54 endpoint test coverage
 - [2026-04-03 17:20] feat(projects): add Real-Time Weapon Detector YOLO architecture
 - [2026-04-03 19:05] style(projects): add subtle specular gradient sheen on cards
+- [2026-04-11 11:30] feat(skills): add Docker and containerization skill tags
