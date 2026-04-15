@@ -159,3 +159,4 @@ Engineering Sprints:
 - [2026-04-15 10:15] feat(contact): construct direct inquiry form with mailto fallback
 - [2026-04-15 11:50] feat(contact): implement one-click clipboard email copy utility
 - [2026-04-15 14:10] style(contact): style tactile form inputs with glowing focus ring
+- [2026-04-15 16:25] feat(modal): build project deep-dive dialog with ASCII flowcharts
