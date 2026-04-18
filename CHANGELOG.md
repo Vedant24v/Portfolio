@@ -212,3 +212,4 @@ Engineering Sprints:
 - [2026-04-03 19:05] style(projects): add subtle specular gradient sheen on cards
 - [2026-04-11 11:30] feat(skills): add Docker and containerization skill tags
 - [2026-04-11 16:05] feat(skills): highlight PostgreSQL indexing and transactions
+- [2026-04-18 11:15] feat(github): implement localStorage caching for GitHub repos
