@@ -213,3 +213,4 @@ Engineering Sprints:
 - [2026-04-11 11:30] feat(skills): add Docker and containerization skill tags
 - [2026-04-11 16:05] feat(skills): highlight PostgreSQL indexing and transactions
 - [2026-04-18 11:15] feat(github): implement localStorage caching for GitHub repos
+- [2026-04-18 14:40] feat(github): add skeleton loading placeholders for API repos
