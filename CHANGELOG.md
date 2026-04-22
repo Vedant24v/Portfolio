@@ -162,3 +162,4 @@ Engineering Sprints:
 - [2026-04-15 16:25] feat(modal): build project deep-dive dialog with ASCII flowcharts
 - [2026-04-15 18:10] a11y(modal): add focus trap and ESC key event listeners
 - [2026-04-15 20:00] perf(assets): configure responsive image loading and webp formats
+- [2026-04-22 11:20] responsive: optimize CSS grid for tablet and landscape viewports
