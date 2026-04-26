@@ -215,3 +215,4 @@ Engineering Sprints:
 - [2026-04-18 11:15] feat(github): implement localStorage caching for GitHub repos
 - [2026-04-18 14:40] feat(github): add skeleton loading placeholders for API repos
 - [2026-04-18 17:55] style(github): match repo card glassmorphism with project cards
+- [2026-04-26 10:15] feat(contact): add client-side input validation on contact form
