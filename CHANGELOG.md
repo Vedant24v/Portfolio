@@ -166,3 +166,4 @@ Engineering Sprints:
 - [2026-04-22 14:05] responsive: calibrate mobile drawer menu transitions and z-indices
 - [2026-04-22 16:40] a11y: audit WCAG AA color contrast ratios across frosted cards
 - [2026-04-22 18:55] seo: embed canonical sitemap.xml and search engine robots.txt
+- [2026-04-29 11:30] seo: add Person and CreativeWork JSON-LD structured metadata
