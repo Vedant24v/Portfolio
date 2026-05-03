@@ -220,3 +220,4 @@ Engineering Sprints:
 - [2026-04-26 14:45] a11y(forms): add aria-describedby for contact validation errors
 - [2026-04-26 16:50] a11y(focus): ensure visible outline focus rings on interactive elements
 - [2026-04-26 18:40] perf(fonts): add font-display swap on Google Fonts preconnect
+- [2026-05-03 11:20] perf(css): remove redundant vendor prefixes and shrink bundle
