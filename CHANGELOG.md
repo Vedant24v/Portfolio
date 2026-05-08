@@ -224,3 +224,4 @@ Engineering Sprints:
 - [2026-05-03 16:15] perf(lighthouse): audit Core Web Vitals and eliminate layout shifts
 - [2026-05-08 10:15] feat(animation): introduce Anime.js multi-axis background parallax
 - [2026-05-08 12:40] feat(animation): implement 3D card tilt and hover perspective
+- [2026-05-08 15:10] feat(animation): configure Nominal.so 3D behind-to-front scroll
