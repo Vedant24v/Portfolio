@@ -222,3 +222,4 @@ Engineering Sprints:
 - [2026-04-26 18:40] perf(fonts): add font-display swap on Google Fonts preconnect
 - [2026-05-03 11:20] perf(css): remove redundant vendor prefixes and shrink bundle
 - [2026-05-03 16:15] perf(lighthouse): audit Core Web Vitals and eliminate layout shifts
+- [2026-05-08 10:15] feat(animation): introduce Anime.js multi-axis background parallax
