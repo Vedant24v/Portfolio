@@ -226,3 +226,4 @@ Engineering Sprints:
 - [2026-05-08 12:40] feat(animation): implement 3D card tilt and hover perspective
 - [2026-05-08 15:10] feat(animation): configure Nominal.so 3D behind-to-front scroll
 - [2026-05-08 17:35] feat(animation): add cosmic particle burst on button activation
+- [2026-05-12 11:45] docs: update changelog and roadmap documentation
