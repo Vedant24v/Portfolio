@@ -140,10 +140,7 @@ section.skills { background:var(--bg2); }
 .skill-card:hover { border-color:var(--primary); transform:translateY(-6px); box-shadow:var(--shadow-hover); }
 .skill-icon { width:48px; height:48px; border-radius:12px; background:var(--glass); display:flex; align-items:center; justify-content:center; margin-bottom:1rem; }
 .skill-icon i { font-size:1.9rem; color:var(--c, var(--primary)); }
-.skill-card h3 { font-size:.92rem; font-weight:600; color:var(--text); margin-bottom:.9rem; }
-.skill-bar { width:100%; height:5px; background:var(--border); border-radius:10px; overflow:hidden; }
-.skill-fill { height:100%; width:0; background:var(--grad); border-radius:10px; transition:width 1.2s cubic-bezier(.4,0,.2,1); }
-.skill-pct { font-size:.75rem; color:var(--text-muted); margin-top:.35rem; display:block; text-align:right; }
+.skill-card h3 { font-size:.92rem; font-weight:600; color:var(--text); margin-bottom:.5rem; }
 
 /* PORTFOLIO */
 .portfolio-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.8rem; }

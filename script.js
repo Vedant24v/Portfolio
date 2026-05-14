@@ -114,16 +114,9 @@ function switchTab(tab) {
     document.querySelectorAll('.skills-tab-content').forEach(c => {
         const active = c.dataset.tab === tab;
         c.classList.toggle('active', active);
-        // Force display style directly to override any cascade issues
         c.style.display = active ? 'grid' : 'none';
         c.style.gridTemplateColumns = active ? 'repeat(auto-fit, minmax(210px, 1fr))' : '';
         c.style.gap = active ? '1.2rem' : '';
-        if (active) {
-            c.querySelectorAll('.skill-fill').forEach(f => {
-                f.style.width = '0';
-                setTimeout(() => { f.style.width = f.dataset.width + '%'; }, 120);
-            });
-        }
     });
 }
 document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
@@ -139,17 +132,7 @@ document.querySelectorAll('.skills-tab-content').forEach(c => {
     }
 });
 
-// Animate first tab on scroll-in
-const skillsSection = document.getElementById('skills');
-const skillObserver = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) {
-        document.querySelectorAll('.skills-tab-content.active .skill-fill').forEach(f => {
-            setTimeout(() => { f.style.width = f.dataset.width + '%'; }, 200);
-        });
-        skillObserver.disconnect();
-    }
-}, { threshold: 0.25 });
-skillObserver.observe(skillsSection);
+
 
 /* ===== COUNTER ANIMATION ===== */
 const aboutSection = document.getElementById('about');
