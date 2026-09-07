@@ -6,3 +6,4 @@ History of development milestones:
 - [2026-09-02] feat(seo): add initial robots.txt and sitemap draft
 - [2026-09-03] feat(ui): scaffold base HTML layout and semantic containers
 - [2026-09-04] style(tokens): define initial light gray neumorphic CSS variables
+- [2026-09-07] style(shadows): calibrate soft dual directional shadow formulas
