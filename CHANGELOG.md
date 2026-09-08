@@ -11,3 +11,4 @@ Engineering Sprints:
 - [2026-09-04 15:51] feat(hero): scaffold hero text, greeting, and title elements
 - [2026-09-08 10:53] feat(hero): implement dynamic rotating role typing effect
 - [2026-09-08 11:27] style(hero): design glassmorphic terminal card for metrics overview
+- [2026-09-08 12:36] feat(about): add educational background and MIT-WPU details
