@@ -10,3 +10,4 @@ Engineering Sprints:
 - [2026-09-04 10:37] feat(nav): add active section scroll-spy observer
 - [2026-09-04 15:51] feat(hero): scaffold hero text, greeting, and title elements
 - [2026-09-08 10:53] feat(hero): implement dynamic rotating role typing effect
+- [2026-09-08 11:27] style(hero): design glassmorphic terminal card for metrics overview
