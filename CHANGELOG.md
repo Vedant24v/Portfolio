@@ -9,3 +9,4 @@ History of development milestones:
 - [2026-09-07] style(shadows): calibrate soft dual directional shadow formulas
 - [2026-09-08] feat(nav): implement sticky glassmorphic navigation header
 - [2026-09-09] feat(nav): add active section scroll-spy observer
+- [2026-09-10] feat(hero): scaffold hero text, greeting, and title elements
