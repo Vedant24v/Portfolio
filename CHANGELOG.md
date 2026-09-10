@@ -17,3 +17,4 @@ Engineering Sprints:
 - [2026-09-08 17:13] feat(experience): detail brokerage API integration contributions
 - [2026-09-08 18:24] feat(experience): document cron market-data automated pipeline
 - [2026-09-10 10:26] feat(experience): add controller modularization and Jest test details
+- [2026-09-10 13:39] feat(modal): create base accessible dialog system for case studies
