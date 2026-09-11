@@ -10,3 +10,4 @@ History of development milestones:
 - [2026-09-08] feat(nav): implement sticky glassmorphic navigation header
 - [2026-09-09] feat(nav): add active section scroll-spy observer
 - [2026-09-10] feat(hero): scaffold hero text, greeting, and title elements
+- [2026-09-11] feat(hero): implement dynamic rotating role typing effect
