@@ -11,3 +11,4 @@ History of development milestones:
 - [2026-09-09] feat(nav): add active section scroll-spy observer
 - [2026-09-10] feat(hero): scaffold hero text, greeting, and title elements
 - [2026-09-11] feat(hero): implement dynamic rotating role typing effect
+- [2026-09-14] style(hero): design neumorphic terminal card for metrics overview
