@@ -22,3 +22,4 @@ Engineering Sprints:
 - [2026-09-15 10:47] feat(case-study): add layered validator-service-helper architecture view
 - [2026-09-15 11:37] feat(projects): scaffold featured projects grid layout
 - [2026-09-15 12:46] feat(projects): add Repox AI Codebase Visualizer card
+- [2026-09-15 13:16] feat(projects): add TaskFlow MERN Kanban project card
