@@ -29,3 +29,4 @@ Engineering Sprints:
 - [2026-09-15 18:49] feat(projects): add Real-Time Weapon Detector computer vision card
 - [2026-09-18 10:24] feat(modal): implement dynamic modal data store for project deep dives
 - [2026-09-18 13:42] feat(modal): add ASCII architecture diagrams for featured applications
+- [2026-09-18 16:37] feat(projects): build expandable secondary projects & experiments section
