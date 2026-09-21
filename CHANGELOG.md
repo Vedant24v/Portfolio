@@ -31,3 +31,4 @@ Engineering Sprints:
 - [2026-09-18 13:42] feat(modal): add ASCII architecture diagrams for featured applications
 - [2026-09-18 16:37] feat(projects): build expandable secondary projects & experiments section
 - [2026-09-21 10:50] style(cards): add hover elevation and tactile transitions on cards
+- [2026-09-21 11:11] feat(skills): construct 6 categorized skill groups
