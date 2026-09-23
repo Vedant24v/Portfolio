@@ -36,3 +36,4 @@ Engineering Sprints:
 - [2026-09-21 15:16] feat(achievements): list cloud certifications and hackathon nominations
 - [2026-09-21 16:36] feat(github): implement async GitHub REST API repository fetcher
 - [2026-09-21 18:42] feat(github): create static fallback cards for API rate-limit resilience
+- [2026-09-23 10:36] feat(blog): scaffold engineering notes layout with upcoming topics
