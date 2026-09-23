@@ -18,3 +18,4 @@ History of development milestones:
 - [2026-09-18] feat(experience): detail brokerage API integration contributions
 - [2026-09-21] feat(experience): document cron market-data automated pipeline
 - [2026-09-22] feat(experience): add controller modularization and Jest test details
+- [2026-09-23] feat(modal): create base accessible dialog system for case studies
