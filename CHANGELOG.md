@@ -43,3 +43,4 @@ Engineering Sprints:
 - [2026-09-25 11:42] feat(footer): add dynamic copyright year and back-to-top button
 - [2026-09-25 12:34] perf(images): configure lazy loading attributes across project media
 - [2026-09-25 14:15] a11y: add aria-modal, role attributes, and keyboard ESC handlers to dialogs
+- [2026-09-25 15:23] a11y: implement prefers-reduced-motion media query resets
