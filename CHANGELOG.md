@@ -40,3 +40,4 @@ Engineering Sprints:
 - [2026-09-23 13:31] feat(contact): build direct contact cards and one-click copy email
 - [2026-09-23 16:40] feat(contact): add functional form validation with mailto dispatch
 - [2026-09-25 10:29] style(contact): style tactile form inputs with focus accent ring
+- [2026-09-25 11:42] feat(footer): add dynamic copyright year and back-to-top button
