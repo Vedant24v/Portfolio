@@ -45,3 +45,4 @@ Engineering Sprints:
 - [2026-09-25 14:15] a11y: add aria-modal, role attributes, and keyboard ESC handlers to dialogs
 - [2026-09-25 15:23] a11y: implement prefers-reduced-motion media query resets
 - [2026-09-25 17:43] responsive: adjust hero and card layouts for tablet (768px - 1024px)
+- [2026-09-25 18:14] responsive: optimize navigation drawer and typography for mobile (360px - 540px)
