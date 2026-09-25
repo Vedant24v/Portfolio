@@ -20,3 +20,4 @@ History of development milestones:
 - [2026-09-22] feat(experience): add controller modularization and Jest test details
 - [2026-09-23] feat(modal): create base accessible dialog system for case studies
 - [2026-09-24] feat(case-study): build Apt Algo architecture data flow diagram
+- [2026-09-25] feat(case-study): add layered validator-service-helper architecture view
