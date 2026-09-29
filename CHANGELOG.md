@@ -50,3 +50,4 @@ Engineering Sprints:
 - [2026-09-29 12:33] seo: embed Schema.org Person and ProfilePage JSON-LD structured data
 - [2026-09-29 14:33] seo: configure Open Graph and Twitter Card metadata tags
 - [2026-09-29 16:52] docs: document full architecture, design system, and deployment in README
+- [2026-09-29 18:17] perf(orbs): optimize floating gradient background CSS animations
