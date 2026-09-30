@@ -23,3 +23,4 @@ History of development milestones:
 - [2026-09-25] feat(case-study): add layered validator-service-helper architecture view
 - [2026-09-28] feat(projects): scaffold featured projects grid layout
 - [2026-09-29] feat(projects): add Repox AI Codebase Visualizer card
+- [2026-09-30] feat(projects): add TaskFlow MERN Kanban project card
