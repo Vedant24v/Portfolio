@@ -25,3 +25,4 @@ History of development milestones:
 - [2026-09-29] feat(projects): add Repox AI Codebase Visualizer card
 - [2026-09-30] feat(projects): add TaskFlow MERN Kanban project card
 - [2026-10-01] feat(projects): add Indus_Mind Industrial Document RAG card
+- [2026-10-02] feat(projects): add MedTrace Electronic Batch Record system card
