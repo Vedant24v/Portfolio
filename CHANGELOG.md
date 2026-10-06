@@ -57,3 +57,4 @@ Engineering Sprints:
 - [2026-10-06 11:14] refactor(modals): streamline architecture ASCII diagram rendering
 - [2026-10-06 12:19] chore: verify cross-browser styling and layout integrity
 - [2026-10-06 13:40] feat(seo): configure canonical sitemap and robots.txt
+- [2026-10-06 15:49] feat(ui): scaffold base HTML layout and semantic containers
