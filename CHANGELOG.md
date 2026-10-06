@@ -27,3 +27,4 @@ History of development milestones:
 - [2026-10-01] feat(projects): add Indus_Mind Industrial Document RAG card
 - [2026-10-02] feat(projects): add MedTrace Electronic Batch Record system card
 - [2026-10-05] feat(projects): add Automated API Test Framework card with 54 test metrics
+- [2026-10-06] feat(projects): add Real-Time Weapon Detector computer vision card
