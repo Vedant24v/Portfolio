@@ -28,3 +28,4 @@ History of development milestones:
 - [2026-10-02] feat(projects): add MedTrace Electronic Batch Record system card
 - [2026-10-05] feat(projects): add Automated API Test Framework card with 54 test metrics
 - [2026-10-06] feat(projects): add Real-Time Weapon Detector computer vision card
+- [2026-10-07] feat(modal): implement dynamic modal data store for project deep dives
