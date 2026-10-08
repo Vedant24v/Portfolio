@@ -63,3 +63,4 @@ Engineering Sprints:
 - [2026-10-06 18:17] feat(nav): implement sticky glassmorphic navigation header
 - [2026-10-08 10:16] feat(nav): add active section scroll-spy observer
 - [2026-10-08 12:24] feat(hero): scaffold hero text, greeting, and title elements
+- [2026-10-08 15:33] feat(hero): implement dynamic rotating role typing effect
