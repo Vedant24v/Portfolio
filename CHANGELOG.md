@@ -61,3 +61,4 @@ Engineering Sprints:
 - [2026-10-06 16:43] style(tokens): define vibrant glassmorphic CSS variables
 - [2026-10-06 17:42] style(shadows): calibrate soft dual directional shadow formulas
 - [2026-10-06 18:17] feat(nav): implement sticky glassmorphic navigation header
+- [2026-10-08 10:16] feat(nav): add active section scroll-spy observer
