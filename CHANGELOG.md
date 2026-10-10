@@ -31,3 +31,4 @@ History of development milestones:
 - [2026-10-07] feat(modal): implement dynamic modal data store for project deep dives
 - [2026-10-08] feat(modal): add ASCII architecture diagrams for featured applications
 - [2026-10-09] feat(projects): build expandable secondary projects & experiments section
+- [2026-10-10] style(cards): add hover elevation and tactile transitions on cards
