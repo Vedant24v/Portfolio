@@ -68,3 +68,4 @@ Engineering Sprints:
 - [2026-10-13 10:30] feat(about): add educational background and MIT-WPU details
 - [2026-10-13 11:38] style(about): create compact education metadata card with inset shadow
 - [2026-10-13 12:52] feat(experience): draft SDE internship overview for Atypical Technologies
+- [2026-10-13 14:31] feat(experience): detail brokerage API integration contributions
