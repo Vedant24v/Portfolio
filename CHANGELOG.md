@@ -33,3 +33,4 @@ History of development milestones:
 - [2026-10-09] feat(projects): build expandable secondary projects & experiments section
 - [2026-10-10] style(cards): add hover elevation and tactile transitions on cards
 - [2026-10-12] feat(skills): construct 6 categorized skill groups
+- [2026-10-13] style(skills): highlight Backend Engineering and Databases prominently
