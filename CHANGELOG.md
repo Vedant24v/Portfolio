@@ -75,3 +75,4 @@ Engineering Sprints:
 - [2026-10-16 10:26] feat(case-study): build Apt Algo architecture data flow diagram
 - [2026-10-16 12:30] feat(case-study): add layered validator-service-helper architecture view
 - [2026-10-16 15:36] feat(projects): scaffold featured projects grid layout
+- [2026-10-16 17:18] feat(projects): add Repox AI Codebase Visualizer card
