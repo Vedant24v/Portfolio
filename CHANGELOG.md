@@ -36,3 +36,4 @@ History of development milestones:
 - [2026-10-13] style(skills): highlight Backend Engineering and Databases prominently
 - [2026-10-14] feat(achievements): list cloud certifications and hackathon nominations
 - [2026-10-15] feat(github): implement async GitHub REST API repository fetcher
+- [2026-10-16] feat(github): create static fallback cards for API rate-limit resilience
