@@ -72,3 +72,4 @@ Engineering Sprints:
 - [2026-10-13 15:50] feat(experience): document cron market-data automated pipeline
 - [2026-10-13 17:11] feat(experience): add controller modularization and Jest test details
 - [2026-10-13 18:40] feat(modal): create base accessible dialog system for case studies
+- [2026-10-16 10:26] feat(case-study): build Apt Algo architecture data flow diagram
