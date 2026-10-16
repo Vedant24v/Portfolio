@@ -73,3 +73,4 @@ Engineering Sprints:
 - [2026-10-13 17:11] feat(experience): add controller modularization and Jest test details
 - [2026-10-13 18:40] feat(modal): create base accessible dialog system for case studies
 - [2026-10-16 10:26] feat(case-study): build Apt Algo architecture data flow diagram
+- [2026-10-16 12:30] feat(case-study): add layered validator-service-helper architecture view
