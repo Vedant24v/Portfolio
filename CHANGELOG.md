@@ -40,3 +40,4 @@ History of development milestones:
 - [2026-10-17] feat(blog): scaffold engineering notes layout with upcoming topics
 - [2026-10-19] feat(contact): build direct contact cards and one-click copy email
 - [2026-10-20] feat(contact): add functional form validation with mailto dispatch
+- [2026-10-21] style(contact): style tactile form inputs with focus accent ring
