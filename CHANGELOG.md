@@ -82,3 +82,4 @@ Engineering Sprints:
 - [2026-10-20 15:24] feat(projects): add Automated API Test Framework card with 54 test metrics
 - [2026-10-20 16:29] feat(projects): add Real-Time Weapon Detector computer vision card
 - [2026-10-20 18:33] feat(modal): implement dynamic modal data store for project deep dives
+- [2026-10-22 10:49] feat(modal): add ASCII architecture diagrams for featured applications
