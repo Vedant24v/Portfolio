@@ -41,3 +41,4 @@ History of development milestones:
 - [2026-10-19] feat(contact): build direct contact cards and one-click copy email
 - [2026-10-20] feat(contact): add functional form validation with mailto dispatch
 - [2026-10-21] style(contact): style tactile form inputs with focus accent ring
+- [2026-10-22] feat(footer): add dynamic copyright year and back-to-top button
