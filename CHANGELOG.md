@@ -86,3 +86,4 @@ Engineering Sprints:
 - [2026-10-22 15:48] feat(projects): build expandable secondary projects & experiments section
 - [2026-10-24 10:24] style(cards): add hover elevation and tactile transitions on cards
 - [2026-10-24 12:48] feat(skills): construct 6 categorized skill groups
+- [2026-10-24 14:45] style(skills): highlight Backend Engineering and Databases prominently
