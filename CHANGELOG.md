@@ -84,3 +84,4 @@ Engineering Sprints:
 - [2026-10-20 18:33] feat(modal): implement dynamic modal data store for project deep dives
 - [2026-10-22 10:49] feat(modal): add ASCII architecture diagrams for featured applications
 - [2026-10-22 15:48] feat(projects): build expandable secondary projects & experiments section
+- [2026-10-24 10:24] style(cards): add hover elevation and tactile transitions on cards
