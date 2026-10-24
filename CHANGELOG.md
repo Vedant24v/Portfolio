@@ -43,3 +43,4 @@ History of development milestones:
 - [2026-10-21] style(contact): style tactile form inputs with focus accent ring
 - [2026-10-22] feat(footer): add dynamic copyright year and back-to-top button
 - [2026-10-23] perf(images): configure lazy loading attributes across project media
+- [2026-10-24] a11y: add aria-modal, role attributes, and keyboard ESC handlers to dialogs
