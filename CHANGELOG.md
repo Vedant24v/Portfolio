@@ -45,3 +45,4 @@ History of development milestones:
 - [2026-10-23] perf(images): configure lazy loading attributes across project media
 - [2026-10-24] a11y: add aria-modal, role attributes, and keyboard ESC handlers to dialogs
 - [2026-10-26] a11y: implement prefers-reduced-motion media query resets
+- [2026-10-27] responsive: adjust hero and card layouts for tablet (768px - 1024px)
