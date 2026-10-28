@@ -96,3 +96,4 @@ Engineering Sprints:
 - [2026-10-28 15:40] style(contact): style tactile form inputs with focus accent ring
 - [2026-10-28 16:13] feat(footer): add dynamic copyright year and back-to-top button
 - [2026-10-28 17:54] perf(images): configure lazy loading attributes across project media
+- [2026-10-28 18:30] a11y: add aria-modal, role attributes, and keyboard ESC handlers to dialogs
