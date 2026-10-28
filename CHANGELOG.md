@@ -91,3 +91,4 @@ Engineering Sprints:
 - [2026-10-24 18:15] feat(github): implement async GitHub REST API repository fetcher
 - [2026-10-28 10:23] feat(github): create static fallback cards for API rate-limit resilience
 - [2026-10-28 11:21] feat(blog): scaffold engineering notes layout with upcoming topics
+- [2026-10-28 12:44] feat(contact): build direct contact cards and one-click copy email
