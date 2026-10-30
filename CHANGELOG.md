@@ -48,3 +48,4 @@ History of development milestones:
 - [2026-10-27] responsive: adjust hero and card layouts for tablet (768px - 1024px)
 - [2026-10-28] responsive: optimize navigation drawer and typography for mobile (360px - 540px)
 - [2026-10-29] style(buttons): refine active inset state for tactile neumorphic feedback
+- [2026-10-30] seo: embed Schema.org Person and ProfilePage JSON-LD structured data
