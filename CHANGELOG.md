@@ -98,3 +98,4 @@ Engineering Sprints:
 - [2026-10-28 17:54] perf(images): configure lazy loading attributes across project media
 - [2026-10-28 18:30] a11y: add aria-modal, role attributes, and keyboard ESC handlers to dialogs
 - [2026-10-30 10:43] a11y: implement prefers-reduced-motion media query resets
+- [2026-10-30 13:10] responsive: adjust hero and card layouts for tablet (768px - 1024px)
