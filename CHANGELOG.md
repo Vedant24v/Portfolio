@@ -49,3 +49,4 @@ History of development milestones:
 - [2026-10-28] responsive: optimize navigation drawer and typography for mobile (360px - 540px)
 - [2026-10-29] style(buttons): refine active inset state for tactile neumorphic feedback
 - [2026-10-30] seo: embed Schema.org Person and ProfilePage JSON-LD structured data
+- [2026-11-02] seo: configure Open Graph and Twitter Card metadata tags
