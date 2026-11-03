@@ -101,3 +101,4 @@ Engineering Sprints:
 - [2026-10-30 13:10] responsive: adjust hero and card layouts for tablet (768px - 1024px)
 - [2026-10-30 16:33] responsive: optimize navigation drawer and typography for mobile (360px - 540px)
 - [2026-11-03 10:21] style(buttons): refine active inset state for tactile feedback
+- [2026-11-03 11:24] seo: embed Schema.org Person and ProfilePage JSON-LD structured data
