@@ -106,3 +106,4 @@ Engineering Sprints:
 - [2026-11-03 14:45] docs: document full architecture, design system, and deployment in README
 - [2026-11-03 15:38] perf(orbs): optimize floating gradient background CSS animations
 - [2026-11-03 17:34] feat(visuals): add rotating aura and orbital chips around hero profile photo
+- [2026-11-03 18:15] style(glass): refine backdrop blur and translucent border highlights
