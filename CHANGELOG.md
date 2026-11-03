@@ -50,3 +50,4 @@ History of development milestones:
 - [2026-10-29] style(buttons): refine active inset state for tactile neumorphic feedback
 - [2026-10-30] seo: embed Schema.org Person and ProfilePage JSON-LD structured data
 - [2026-11-02] seo: configure Open Graph and Twitter Card metadata tags
+- [2026-11-03] docs: document full architecture, design system, and deployment in README
