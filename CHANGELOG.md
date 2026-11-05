@@ -108,3 +108,4 @@ Engineering Sprints:
 - [2026-11-03 17:34] feat(visuals): add rotating aura and orbital chips around hero profile photo
 - [2026-11-03 18:15] style(glass): refine backdrop blur and translucent border highlights
 - [2026-11-05 10:21] fix(nav): smooth mobile menu drawer toggle and backdrop overlay
+- [2026-11-05 12:27] refactor(modals): streamline architecture ASCII diagram rendering
