@@ -268,55 +268,57 @@ img, svg {
   overflow: hidden;
 }
 
-/* ThreeUI Glass AI Button Styling */
+/* ThreeUI Glass AI Button Styling — Vibrant Blue to Light Blue */
 .btn-primary {
-  background: radial-gradient(130% 100% at 50% 0%, rgba(99, 102, 241, 0.85) 0%, rgba(30, 27, 75, 0.9) 65%, rgba(15, 23, 42, 0.95) 100%);
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 30%, #0284C7 68%, #38BDF8 100%);
   color: #FFFFFF;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.65);
   box-shadow: 
-    0 10px 25px -5px rgba(15, 23, 42, 0.4),
-    0 0 20px rgba(99, 102, 241, 0.4),
-    inset 0 1px 1.5px rgba(255, 255, 255, 0.7),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.5);
+    0 10px 25px -4px rgba(37, 99, 235, 0.45),
+    0 0 24px rgba(56, 189, 248, 0.5),
+    inset 0 1px 2px rgba(255, 255, 255, 0.9),
+    inset 0 -1px 2px rgba(29, 78, 216, 0.4);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
+  text-shadow: 0 1px 2px rgba(15, 23, 42, 0.35);
 }
 
 .btn-primary::before {
   content: "";
   position: absolute;
   top: 0;
-  left: 20%;
-  right: 20%;
-  height: 1px;
+  left: 15%;
+  right: 15%;
+  height: 1.5px;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
   pointer-events: none;
 }
 
 .btn-primary:hover {
   transform: translateY(-2px) scale(1.02);
+  background: linear-gradient(135deg, #2563EB 0%, #3B82F6 35%, #38BDF8 75%, #7DD3FC 100%);
   box-shadow: 
-    0 16px 35px -5px rgba(15, 23, 42, 0.5),
-    0 0 28px rgba(99, 102, 241, 0.6),
-    inset 0 1px 2px rgba(255, 255, 255, 0.9);
-  border-color: rgba(255, 255, 255, 0.65);
+    0 16px 35px -4px rgba(37, 99, 235, 0.6),
+    0 0 32px rgba(56, 189, 248, 0.7),
+    inset 0 1px 2px #FFFFFF;
+  border-color: #FFFFFF;
 }
 
 .btn-ghost {
-  background: rgba(255, 255, 255, 0.45);
+  background: rgba(240, 249, 255, 0.65);
   backdrop-filter: blur(14px) saturate(160%);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
-  color: var(--text-main);
-  border: 1.5px solid rgba(255, 255, 255, 0.75);
-  box-shadow: 0 4px 18px rgba(31, 38, 135, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  color: #0284C7;
+  border: 1.5px solid rgba(56, 189, 248, 0.5);
+  box-shadow: 0 4px 18px rgba(37, 99, 235, 0.08), inset 0 1px 1px #FFFFFF;
 }
 
 .btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.8);
-  border-color: rgba(99, 102, 241, 0.4);
-  color: var(--primary);
+  background: rgba(224, 242, 254, 0.9);
+  border-color: #0284C7;
+  color: #1D4ED8;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.16), inset 0 1px 1.5px #fff;
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.28), inset 0 1px 1.5px #FFFFFF;
 }
 
 /* ThreeUI Shader Frame Container */
@@ -335,6 +337,24 @@ img, svg {
 .shader-frame:hover {
   transform: translateY(-2px) scale(1.015);
   box-shadow: 0 20px 45px -6px rgba(15, 23, 42, 0.45), 0 0 32px rgba(99, 102, 241, 0.45);
+}
+
+/* Generative Tree Showcase Section */
+.generative-tree-section {
+  padding: 5rem 0 3rem 0;
+  position: relative;
+  z-index: 2;
+}
+
+.generative-tree-frame {
+  width: 100%;
+  max-width: 980px;
+  height: 520px;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 35px rgba(245, 158, 11, 0.25);
+  overflow: hidden;
+  background: #0a0a0a;
 }
 
 .badge-pill {
