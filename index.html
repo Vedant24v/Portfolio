@@ -34,7 +34,7 @@
   <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="./style.css?v=3.8">
+  <link rel="stylesheet" href="./style.css?v=3.9">
 
   <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
@@ -66,6 +66,18 @@
     <div class="orb-layer orb-layer-4"><div class="gradient-orb orb-4"></div></div>
     <div class="orb-layer orb-layer-5"><div class="gradient-orb orb-5"></div></div>
     <canvas id="particle-canvas"></canvas>
+
+    <!-- CATHODE RETRO-TECH WIREFRAME HUD (Fixed Constantly at Background with Flicker & Motion) -->
+    <div class="cathode-viewport" id="cathodeViewport">
+      <div class="cathode-scaler" id="cathodeScaler">
+        <div class="cathode-wireframe-frame" id="cathodeFrame">
+          <img src="./cathode-art.png" alt="" class="cathode-visual" id="cathodeVisual" draggable="false">
+          <div class="cathode-phosphor-glow"></div>
+          <div class="cathode-scanlines"></div>
+          <div class="cathode-raster-beam"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- STICKY HEADER -->
@@ -1039,6 +1051,6 @@
   <!-- Anime.js v4 Animation Library -->
   <script src="https://cdn.jsdelivr.net/npm/animejs/dist/bundles/anime.umd.min.js"></script>
   <!-- Application Runtime -->
-  <script src="./script.js?v=3.8"></script>
+  <script src="./script.js?v=3.9"></script>
 </body>
 </html>

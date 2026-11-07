@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initGitHubRepos();
   initModalKeyListeners();
   initAnimeBackgroundParallax();
+  initCathodeWireframeBackground();
   initAnimeInteractiveHero();
   initNominalBehindToFrontScroll();
   init3DCardTilt();
@@ -737,21 +738,41 @@ function initAnimeBackgroundParallax() {
   const orb3 = document.querySelector('.orb-layer-3');
   const orb4 = document.querySelector('.orb-layer-4');
   const orb5 = document.querySelector('.orb-layer-5');
+  const cathodeScaler = document.getElementById('cathodeScaler');
+  const cathodeFrame = document.getElementById('cathodeFrame');
 
-  if (!orb1 && !orb2 && !orb3 && !orb4 && !orb5) return;
+  if (!orb1 && !orb2 && !orb3 && !orb4 && !orb5 && !cathodeScaler) return;
 
   let ticking = false;
+  let lastScrollY = window.scrollY;
 
   function updateParallax() {
     const scrollY = window.scrollY;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight || 1;
     const scrollProgress = Math.min(Math.max(scrollY / docHeight, 0), 1);
+    const scrollVelocity = Math.abs(scrollY - lastScrollY);
+    lastScrollY = scrollY;
 
     if (orb1) orb1.style.transform = `translate3d(${Math.sin(scrollProgress * Math.PI) * 35}px, ${scrollY * 0.16}px, 0)`;
     if (orb2) orb2.style.transform = `translate3d(${-scrollY * 0.08}px, ${-scrollY * 0.14}px, 0) rotate(${scrollProgress * 25}deg)`;
     if (orb3) orb3.style.transform = `translate3d(${Math.sin(scrollProgress * Math.PI * 1.5) * 40}px, ${-scrollY * 0.1}px, 0)`;
     if (orb4) orb4.style.transform = `translate3d(${scrollY * 0.1}px, ${-scrollY * 0.18}px, 0)`;
     if (orb5) orb5.style.transform = `translate3d(${-Math.cos(scrollProgress * Math.PI) * 35}px, ${scrollY * 0.1}px, 0)`;
+
+    // CATHODE WIREFRAME SCROLL MOTION & ISOMETRIC CAMERA ORBIT
+    if (cathodeScaler) {
+      const cathodeParallaxY = -scrollY * 0.06;
+      const rotX = (2.2 - scrollProgress * 4.5).toFixed(2);
+      const rotY = (-3.2 + scrollProgress * 6.5).toFixed(2);
+      const scale = (1 + scrollProgress * 0.04).toFixed(3);
+      cathodeScaler.style.transform = `translate3d(0, ${cathodeParallaxY}px, 0) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${scale})`;
+    }
+
+    // Scroll Velocity Reactive Phosphor Shimmer
+    if (cathodeFrame && scrollVelocity > 4) {
+      const shimmer = Math.min(0.14, scrollVelocity * 0.0025);
+      cathodeFrame.style.opacity = (0.42 + shimmer).toFixed(2);
+    }
 
     ticking = false;
   }
@@ -764,6 +785,74 @@ function initAnimeBackgroundParallax() {
   }, { passive: true });
 
   updateParallax();
+}
+
+/**
+ * CATHODE RETRO-TECH WIREFRAME HUD (Anime.js Idle Float & CRT Voltage Flicker)
+ * Keeps the isometric schematic constantly alive at background with authentic CRT flicker & motion
+ */
+function initCathodeWireframeBackground() {
+  const scaler = document.getElementById('cathodeScaler');
+  const frame = document.getElementById('cathodeFrame');
+
+  if (!scaler || !frame) return;
+
+  // 1. Anime.js continuous 3D floating & breathing idle motion
+  animeAnimate(scaler, {
+    translateY: [-10, 10],
+    rotateX: [2, -2],
+    rotateY: [-3.5, 3.5],
+    rotateZ: [-0.6, 0.6],
+    duration: 8000,
+    direction: 'alternate',
+    loop: true,
+    easing: 'easeInOutSine'
+  });
+
+  // 2. Randomized CRT Cathode Micro-Twitch / Voltage Glitch
+  let glitchTimeout;
+  function scheduleGlitch() {
+    if (document.hidden) {
+      glitchTimeout = setTimeout(scheduleGlitch, 2000);
+      return;
+    }
+
+    const nextDelay = Math.random() * 3500 + 2000; // Between 2s and 5.5s
+    glitchTimeout = setTimeout(() => {
+      triggerCathodeGlitch();
+      scheduleGlitch();
+    }, nextDelay);
+  }
+
+  function triggerCathodeGlitch() {
+    if (!frame || document.hidden) return;
+    const jitterX = (Math.random() - 0.5) * 3;
+    const jitterY = (Math.random() - 0.5) * 2;
+
+    animeAnimate(frame, {
+      translateX: [0, jitterX, -jitterX * 0.6, 0],
+      translateY: [0, jitterY, -jitterY * 0.6, 0],
+      filter: [
+        'drop-shadow(0 0 16px rgba(255, 255, 255, 0.14)) contrast(1.08) brightness(1)',
+        'drop-shadow(0 0 30px rgba(255, 255, 255, 0.35)) contrast(1.22) brightness(1.24)',
+        'drop-shadow(0 0 10px rgba(255, 255, 255, 0.08)) contrast(0.98) brightness(0.90)',
+        'drop-shadow(0 0 16px rgba(255, 255, 255, 0.14)) contrast(1.08) brightness(1)'
+      ],
+      duration: 160,
+      easing: 'steps(3)'
+    });
+  }
+
+  scheduleGlitch();
+
+  // Pause glitch timer on tab change to conserve CPU and battery
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      clearTimeout(glitchTimeout);
+    } else {
+      scheduleGlitch();
+    }
+  });
 }
 
 /**
