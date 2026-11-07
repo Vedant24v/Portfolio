@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initBackgroundParticles();
   initGitHubRepos();
   initModalKeyListeners();
+  initAnimeBackgroundParallax();
+  initAnimeInteractiveHero();
+  initAnimeScrollReveals();
 });
 
 /* ==========================================================================
@@ -150,16 +153,24 @@ function initBackgroundParticles() {
    ========================================================================== */
 function initNavigation() {
   const header = document.getElementById('header');
+  const scrollProgress = document.getElementById('scrollProgress');
   const mobileToggle = document.getElementById('mobileToggle');
   const mobileMenu = document.getElementById('mobileMenu');
   const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
   const sections = document.querySelectorAll('section[id]');
 
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
+    const scrollY = window.scrollY;
+    if (scrollY > 40) {
       header.classList.add('scrolled');
     } else {
       header.classList.remove('scrolled');
+    }
+
+    if (scrollProgress) {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? Math.min(Math.max((scrollY / docHeight) * 100, 0), 100) : 0;
+      scrollProgress.style.width = `${progress}%`;
     }
   }, { passive: true });
 
@@ -653,4 +664,245 @@ function handleContactSubmit(e) {
   }
 
   window.location.href = `mailto:vedantvyawhare2000@gmail.com?subject=${encodedSubject}&body=${encodedBody}`;
+}
+
+/* ==========================================================================
+   11. ANIME.JS POWERED SCROLL PARALLAX, 3D TILT & STAGGER REVEALS
+   ========================================================================== */
+
+/**
+ * Universal Anime.js bridge supporting v4 (animate) and v3 (anime({...}))
+ */
+function animeAnimate(targets, params) {
+  if (typeof window !== 'undefined' && window.anime) {
+    try {
+      if (typeof window.anime.animate === 'function') {
+        return window.anime.animate(targets, params);
+      } else if (typeof window.anime === 'function') {
+        return window.anime({ targets, ...params });
+      }
+    } catch (err) {
+      // Graceful fallback to CSS transforms
+    }
+  }
+}
+
+/**
+ * Background Scroll Parallax using Anime.js
+ * Moves background orb layers in multi-axis opposition for deep visual immersion
+ */
+function initAnimeBackgroundParallax() {
+  const orb1 = document.querySelector('.orb-layer-1');
+  const orb2 = document.querySelector('.orb-layer-2');
+  const orb3 = document.querySelector('.orb-layer-3');
+  const orb4 = document.querySelector('.orb-layer-4');
+  const orb5 = document.querySelector('.orb-layer-5');
+
+  if (!orb1 && !orb2 && !orb3 && !orb4 && !orb5) return;
+
+  let ticking = false;
+
+  function updateParallax() {
+    const scrollY = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight || 1;
+    const scrollProgress = Math.min(Math.max(scrollY / docHeight, 0), 1);
+
+    // Layer 1: Downward drift + gentle scaling
+    if (orb1) {
+      animeAnimate(orb1, {
+        translateY: scrollY * 0.26,
+        translateX: Math.sin(scrollProgress * Math.PI) * 40,
+        scale: 1 + scrollProgress * 0.12,
+        duration: 350,
+        ease: 'outQuad'
+      });
+    }
+
+    // Layer 2: Reverse drift + counter-rotation
+    if (orb2) {
+      animeAnimate(orb2, {
+        translateY: -scrollY * 0.22,
+        translateX: -scrollY * 0.1,
+        rotate: scrollProgress * 30,
+        duration: 400,
+        ease: 'outQuad'
+      });
+    }
+
+    // Layer 3: Lateral slide + scaling
+    if (orb3) {
+      animeAnimate(orb3, {
+        translateX: Math.sin(scrollProgress * Math.PI * 1.5) * 55,
+        translateY: -scrollY * 0.16,
+        scale: 1 - scrollProgress * 0.08,
+        duration: 450,
+        ease: 'outQuad'
+      });
+    }
+
+    // Layer 4: Upward counter-scroll
+    if (orb4) {
+      animeAnimate(orb4, {
+        translateY: -scrollY * 0.3,
+        translateX: scrollY * 0.14,
+        rotate: -scrollProgress * 40,
+        duration: 420,
+        ease: 'outQuad'
+      });
+    }
+
+    // Layer 5: Diagonal breathing
+    if (orb5) {
+      animeAnimate(orb5, {
+        translateY: scrollY * 0.15,
+        translateX: -Math.cos(scrollProgress * Math.PI) * 45,
+        rotate: scrollProgress * 45,
+        duration: 480,
+        ease: 'outQuad'
+      });
+    }
+
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  updateParallax();
+}
+
+/**
+ * 3D Interactive Mouse Tilt on Hero Photo, Aura, and Orbital Chips
+ */
+function initAnimeInteractiveHero() {
+  const heroWrap = document.querySelector('.hero-visual-wrap');
+  const photoBox = document.querySelector('.photo-box');
+  const photoAura = document.querySelector('.photo-aura');
+  const chip1 = document.querySelector('.chip-pos-1');
+  const chip2 = document.querySelector('.chip-pos-2');
+  const chip3 = document.querySelector('.chip-pos-3');
+
+  if (!heroWrap || !photoBox) return;
+
+  heroWrap.addEventListener('mousemove', (e) => {
+    const rect = heroWrap.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    const normX = x / (rect.width / 2);
+    const normY = y / (rect.height / 2);
+
+    // 3D Card tilt on photo
+    animeAnimate(photoBox, {
+      rotateY: normX * 12,
+      rotateX: -normY * 12,
+      duration: 350,
+      ease: 'outQuad'
+    });
+
+    // Holographic aura shift
+    if (photoAura) {
+      animeAnimate(photoAura, {
+        translateX: normX * 18,
+        translateY: normY * 18,
+        duration: 450,
+        ease: 'outQuad'
+      });
+    }
+
+    // Orbital chips depth parallax
+    if (chip1) {
+      animeAnimate(chip1, {
+        translateX: -normX * 16,
+        translateY: -normY * 16,
+        duration: 500,
+        ease: 'outQuad'
+      });
+    }
+    if (chip2) {
+      animeAnimate(chip2, {
+        translateX: normX * 18,
+        translateY: -normY * 18,
+        duration: 500,
+        ease: 'outQuad'
+      });
+    }
+    if (chip3) {
+      animeAnimate(chip3, {
+        translateX: -normX * 20,
+        translateY: normY * 20,
+        duration: 500,
+        ease: 'outQuad'
+      });
+    }
+  });
+
+  heroWrap.addEventListener('mouseleave', () => {
+    animeAnimate(photoBox, {
+      rotateY: 0,
+      rotateX: 0,
+      duration: 650,
+      ease: 'outQuad'
+    });
+
+    if (photoAura) {
+      animeAnimate(photoAura, {
+        translateX: 0,
+        translateY: 0,
+        duration: 650,
+        ease: 'outQuad'
+      });
+    }
+
+    [chip1, chip2, chip3].forEach(chip => {
+      if (chip) {
+        animeAnimate(chip, {
+          translateX: 0,
+          translateY: 0,
+          duration: 650,
+          ease: 'outQuad'
+        });
+      }
+    });
+  });
+}
+
+/**
+ * Staggered Scroll-Entrance Reveals for Project Cards and Timeline Items
+ */
+function initAnimeScrollReveals() {
+  const animatedSelectors = [
+    '.project-card',
+    '.timeline-card',
+    '.skills-category-card',
+    '.stat-box',
+    '.about-highlight-card'
+  ];
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animeAnimate(entry.target, {
+          translateY: [28, 0],
+          opacity: [0, 1],
+          duration: 600,
+          ease: 'outExpo'
+        });
+        obs.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -30px 0px'
+  });
+
+  animatedSelectors.forEach(selector => {
+    document.querySelectorAll(selector).forEach(el => {
+      el.style.opacity = '0';
+      observer.observe(el);
+    });
+  });
 }

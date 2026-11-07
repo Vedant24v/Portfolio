@@ -34,7 +34,7 @@
   <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="./style.css?v=3.2">
+  <link rel="stylesheet" href="./style.css?v=3.3">
 
   <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
@@ -60,15 +60,17 @@
 
   <!-- CONTINUOUS ANIMATED BACKGROUND ORBS & CANVAS -->
   <div class="ambient-background" aria-hidden="true">
-    <div class="gradient-orb orb-1"></div>
-    <div class="gradient-orb orb-2"></div>
-    <div class="gradient-orb orb-3"></div>
-    <div class="gradient-orb orb-4"></div>
+    <div class="orb-layer orb-layer-1"><div class="gradient-orb orb-1"></div></div>
+    <div class="orb-layer orb-layer-2"><div class="gradient-orb orb-2"></div></div>
+    <div class="orb-layer orb-layer-3"><div class="gradient-orb orb-3"></div></div>
+    <div class="orb-layer orb-layer-4"><div class="gradient-orb orb-4"></div></div>
+    <div class="orb-layer orb-layer-5"><div class="gradient-orb orb-5"></div></div>
     <canvas id="particle-canvas"></canvas>
   </div>
 
   <!-- STICKY HEADER -->
   <header class="header" id="header">
+    <div class="scroll-progress-line" id="scrollProgress"></div>
     <div class="container nav-container">
       <a href="#home" class="logo" aria-label="Vedant Vyawhare">
         <span class="logo-badge">V</span>
@@ -120,10 +122,6 @@
     <section class="hero" id="home">
       <div class="container hero-grid">
         <div class="hero-text">
-          <div class="badge-pill" style="margin-bottom: 1.25rem;">
-            <span class="pulse-dot"></span> Open to SDE Opportunities · Pune, India
-          </div>
-
           <div class="hero-greeting">HELLO, I'M</div>
           <h1 class="hero-name">Vedant <span class="gradient-text">Vyawhare</span></h1>
           
@@ -1038,6 +1036,9 @@
     </div>
   </div>
 
-  <script src="./script.js?v=3.2"></script>
+  <!-- Anime.js v4 Animation Library -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs/dist/bundles/anime.umd.min.js"></script>
+  <!-- Application Runtime -->
+  <script src="./script.js?v=3.3"></script>
 </body>
 </html>
