@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNominalBehindToFrontScroll();
   init3DCardTilt();
   initSectionScrollReveals();
+  initButtonParticleBurst();
 });
 
 /* ==========================================================================
@@ -1006,4 +1007,60 @@ function initSectionScrollReveals() {
       observer.observe(el);
     });
   });
+}
+
+/**
+ * 15. THREEUI GLASS AI BUTTON PARTICLE BURST ON ACTIVATION
+ */
+function initButtonParticleBurst() {
+  document.querySelectorAll('.btn, .btn-primary, .btn-ghost').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      createParticleBurst(e.clientX, e.clientY);
+    });
+  });
+}
+
+function createParticleBurst(x, y) {
+  if (!x && !y) return;
+  const container = document.createElement('div');
+  container.style.position = 'fixed';
+  container.style.left = `${x}px`;
+  container.style.top = `${y}px`;
+  container.style.pointerEvents = 'none';
+  container.style.zIndex = '99999';
+  document.body.appendChild(container);
+
+  const particleCount = 18;
+  const colors = ['#60A5FA', '#818CF8', '#C084FC', '#38BDF8', '#FFFFFF'];
+
+  for (let i = 0; i < particleCount; i++) {
+    const p = document.createElement('div');
+    const size = Math.random() * 5 + 3;
+    p.style.position = 'absolute';
+    p.style.width = `${size}px`;
+    p.style.height = `${size}px`;
+    p.style.borderRadius = '50%';
+    p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    p.style.boxShadow = `0 0 10px ${p.style.backgroundColor}`;
+    p.style.transform = 'translate(-50%, -50%)';
+    container.appendChild(p);
+
+    const angle = (Math.PI * 2 * i) / particleCount + (Math.random() - 0.5) * 0.5;
+    const distance = Math.random() * 60 + 35;
+    const targetX = Math.cos(angle) * distance;
+    const targetY = Math.sin(angle) * distance;
+
+    if (window.anime) {
+      animeAnimate(p, {
+        translateX: [0, targetX],
+        translateY: [0, targetY],
+        scale: [1, 0],
+        opacity: [1, 0],
+        duration: Math.random() * 300 + 400,
+        ease: 'outExpo'
+      });
+    }
+  }
+
+  setTimeout(() => container.remove(), 800);
 }

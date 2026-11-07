@@ -1,0 +1,24 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "Personal developer portfolio for **Vedant Vyawhare**, Backend & Full-Stack Software Engineer (Final Year B.Tech CSE at MIT-WPU, Pune; SDE Intern at Atypical Technologies).",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vedant24v/Portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Vedant24v/Portfolio/issues"
+  },
+  "homepage": "https://github.com/Vedant24v/Portfolio#readme",
+  "dependencies": {
+    "@designcodeio/threeui": "^1.2.0"
+  }
+}
