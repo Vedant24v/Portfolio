@@ -925,12 +925,17 @@ section {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2.2rem;
+  perspective: 1200px;
+  transform-style: preserve-3d;
 }
 
 .project-card {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+  transition: box-shadow var(--trans-smooth), border-color var(--trans-smooth);
 }
 
 .project-media-wrap {
@@ -1054,6 +1059,8 @@ section {
   grid-template-columns: repeat(3, 1fr);
   gap: 1.6rem;
   margin-top: 2rem;
+  perspective: 1200px;
+  transform-style: preserve-3d;
 }
 
 .more-projects-grid.expanded {
@@ -1064,6 +1071,9 @@ section {
   padding: 1.8rem;
   display: flex;
   flex-direction: column;
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+  transition: box-shadow var(--trans-smooth), border-color var(--trans-smooth);
 }
 
 /* ==========================================================================
@@ -1074,12 +1084,17 @@ section {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
+  perspective: 1200px;
+  transform-style: preserve-3d;
 }
 
 .skill-cat-card {
   padding: 2rem;
   display: flex;
   flex-direction: column;
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+  transition: box-shadow var(--trans-smooth), border-color var(--trans-smooth);
 }
 
 .skill-cat-card.highlight {

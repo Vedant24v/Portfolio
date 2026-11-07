@@ -15,7 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initModalKeyListeners();
   initAnimeBackgroundParallax();
   initAnimeInteractiveHero();
-  initAnimeScrollReveals();
+  initNominalBehindToFrontScroll();
+  init3DCardTilt();
+  initSectionScrollReveals();
 });
 
 /* ==========================================================================
@@ -871,13 +873,112 @@ function initAnimeInteractiveHero() {
 }
 
 /**
- * Staggered Scroll-Entrance Reveals for Project Cards and Timeline Items
+ * 12. NOMINAL.SO STYLE BEHIND-TO-FRONT 3D SCROLL DYNAMICS
+ * Cards emerge from deep z-space (behind, smaller, blurred) forward into the crisp foreground
+ * as the user scrolls down towards and through Projects and Skills sections.
  */
-function initAnimeScrollReveals() {
-  const animatedSelectors = [
-    '.project-card',
+function initNominalBehindToFrontScroll() {
+  const cards = document.querySelectorAll('.project-card, .skill-cat-card, .mini-card');
+  if (!cards.length) return;
+
+  // Initialize initial 3D behind state for all cards
+  cards.forEach(card => {
+    card.style.transformOrigin = 'center center';
+    card.style.transform = 'perspective(1200px) translate3d(0, 50px, -150px) scale(0.85)';
+    card.style.opacity = '0.2';
+    card.style.filter = 'blur(4px)';
+  });
+
+  const animatedCards = new WeakSet();
+
+  function checkCardPositions() {
+    const windowHeight = window.innerHeight;
+
+    cards.forEach((card, index) => {
+      const rect = card.getBoundingClientRect();
+      // Trigger when card enters the active viewport window (bottom 92%)
+      if (rect.top < windowHeight * 0.92 && rect.bottom > 0) {
+        if (!animatedCards.has(card)) {
+          animatedCards.add(card);
+
+          // Fly forward from behind to front with Anime.js
+          animeAnimate(card, {
+            translateZ: [-150, 0],
+            translateY: [50, 0],
+            scale: [0.85, 1],
+            opacity: [0.2, 1],
+            filter: ['blur(4px)', 'blur(0px)'],
+            duration: 850,
+            delay: (index % 2) * 90,
+            ease: 'outExpo',
+            complete: () => {
+              card.style.filter = 'none';
+            }
+          });
+
+          // Stagger internal skill badges if it's a skill category card
+          const pills = card.querySelectorAll('.skill-pill');
+          if (pills.length) {
+            animeAnimate(pills, {
+              scale: [0.7, 1],
+              opacity: [0, 1],
+              translateY: [12, 0],
+              delay: (el, i) => 120 + i * 30,
+              duration: 500,
+              ease: 'outBack'
+            });
+          }
+        }
+      }
+    });
+  }
+
+  window.addEventListener('scroll', checkCardPositions, { passive: true });
+  window.addEventListener('resize', checkCardPositions, { passive: true });
+
+  // Initial check
+  checkCardPositions();
+}
+
+/**
+ * 13. NOMINAL.SO INTERACTIVE 3D CARD TILT ON HOVER
+ */
+function init3DCardTilt() {
+  const cards = document.querySelectorAll('.project-card, .skill-cat-card, .mini-card');
+
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const normX = x / (rect.width / 2);
+      const normY = y / (rect.height / 2);
+
+      animeAnimate(card, {
+        rotateY: normX * 7,
+        rotateX: -normY * 7,
+        duration: 250,
+        ease: 'outQuad'
+      });
+    });
+
+    card.addEventListener('mouseleave', () => {
+      animeAnimate(card, {
+        rotateY: 0,
+        rotateX: 0,
+        duration: 500,
+        ease: 'outQuad'
+      });
+    });
+  });
+}
+
+/**
+ * 14. SECTION SCROLL REVEALS FOR TIMELINE & HIGHLIGHTS
+ */
+function initSectionScrollReveals() {
+  const otherSelectors = [
     '.timeline-card',
-    '.skills-category-card',
     '.stat-box',
     '.about-highlight-card'
   ];
@@ -888,7 +989,7 @@ function initAnimeScrollReveals() {
         animeAnimate(entry.target, {
           translateY: [28, 0],
           opacity: [0, 1],
-          duration: 600,
+          duration: 650,
           ease: 'outExpo'
         });
         obs.unobserve(entry.target);
@@ -899,7 +1000,7 @@ function initAnimeScrollReveals() {
     rootMargin: '0px 0px -30px 0px'
   });
 
-  animatedSelectors.forEach(selector => {
+  otherSelectors.forEach(selector => {
     document.querySelectorAll(selector).forEach(el => {
       el.style.opacity = '0';
       observer.observe(el);
