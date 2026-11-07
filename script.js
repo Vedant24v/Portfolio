@@ -89,57 +89,69 @@ function initBackgroundParticles() {
   let width = (canvas.width = window.innerWidth);
   let height = (canvas.height = window.innerHeight);
 
+  let resizeTimeout;
   window.addEventListener('resize', () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  });
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }, 150);
+  }, { passive: true });
 
-  const particleCount = Math.min(Math.floor(window.innerWidth / 20), 65);
+  const isMobile = window.innerWidth < 768;
+  const particleCount = isMobile ? 22 : Math.min(Math.floor(window.innerWidth / 24), 50);
   const particles = [];
 
   for (let i = 0; i < particleCount; i++) {
     particles.push({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.45,
-      vy: (Math.random() - 0.5) * 0.45,
-      radius: Math.random() * 2 + 1,
-      color: i % 2 === 0 ? 'rgba(79, 70, 229, 0.4)' : 'rgba(6, 182, 212, 0.4)'
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      radius: Math.random() * 1.8 + 1,
+      color: i % 2 === 0 ? 'rgba(79, 70, 229, 0.45)' : 'rgba(6, 182, 212, 0.45)'
     });
   }
 
+  const maxDist = 105;
+  const maxDistSq = maxDist * maxDist;
+
   function render() {
+    if (document.hidden) {
+      requestAnimationFrame(render);
+      return;
+    }
+
     ctx.clearRect(0, 0, width, height);
 
-    // Draw and update particles
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
       p.x += p.vx;
       p.y += p.vy;
 
       if (p.x < 0) p.x = width;
-      if (p.x > width) p.x = 0;
+      else if (p.x > width) p.x = 0;
       if (p.y < 0) p.y = height;
-      if (p.y > height) p.y = 0;
+      else if (p.y > height) p.y = 0;
 
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
       ctx.fillStyle = p.color;
       ctx.fill();
 
-      // Connect nearby particles with subtle gradient line
       for (let j = i + 1; j < particles.length; j++) {
         const p2 = particles[j];
         const dx = p.x - p2.x;
         const dy = p.y - p2.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+        const distSq = dx * dx + dy * dy;
 
-        if (dist < 110) {
+        if (distSq < maxDistSq) {
+          const dist = Math.sqrt(distSq);
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = `rgba(99, 102, 241, ${0.15 * (1 - dist / 110)})`;
-          ctx.lineWidth = 0.8;
+          ctx.strokeStyle = `rgba(99, 102, 241, ${0.14 * (1 - dist / maxDist)})`;
+          ctx.lineWidth = 0.75;
           ctx.stroke();
         }
       }
@@ -162,18 +174,25 @@ function initNavigation() {
   const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
   const sections = document.querySelectorAll('section[id]');
 
+  let navTicking = false;
   window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-    if (scrollY > 40) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
+    if (!navTicking) {
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        if (scrollY > 40) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
 
-    if (scrollProgress) {
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? Math.min(Math.max((scrollY / docHeight) * 100, 0), 100) : 0;
-      scrollProgress.style.width = `${progress}%`;
+        if (scrollProgress) {
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = docHeight > 0 ? Math.min(Math.max((scrollY / docHeight) * 100, 0), 100) : 0;
+          scrollProgress.style.width = `${progress}%`;
+        }
+        navTicking = false;
+      });
+      navTicking = true;
     }
   }, { passive: true });
 
@@ -555,15 +574,8 @@ async function initGitHubRepos() {
   const container = document.getElementById('githubReposGrid');
   if (!container) return;
 
-  try {
-    const res = await fetch('https://api.github.com/users/Vedant24v/repos?sort=updated&per_page=6');
-    if (!res.ok) return;
-
-    const repos = await res.json();
-    if (!Array.isArray(repos) || repos.length === 0) return;
-
-    const topRepos = repos.slice(0, 6);
-    container.innerHTML = topRepos.map(repo => {
+  function renderRepos(reposList) {
+    container.innerHTML = reposList.map(repo => {
       const desc = repo.description || 'Software engineering repository by Vedant Vyawhare.';
       const lang = repo.language || 'Code';
       const stars = repo.stargazers_count || 0;
@@ -591,6 +603,31 @@ async function initGitHubRepos() {
         </div>
       `;
     }).join('');
+  }
+
+  try {
+    const cached = localStorage.getItem('vv_github_repos');
+    const cachedTime = localStorage.getItem('vv_github_repos_time');
+    if (cached && cachedTime && Date.now() - parseInt(cachedTime, 10) < 3600000) {
+      renderRepos(JSON.parse(cached));
+      return;
+    }
+  } catch (e) {}
+
+  try {
+    const res = await fetch('https://api.github.com/users/Vedant24v/repos?sort=updated&per_page=6');
+    if (!res.ok) return;
+
+    const repos = await res.json();
+    if (!Array.isArray(repos) || repos.length === 0) return;
+
+    const topRepos = repos.slice(0, 6);
+    try {
+      localStorage.setItem('vv_github_repos', JSON.stringify(topRepos));
+      localStorage.setItem('vv_github_repos_time', Date.now().toString());
+    } catch (e) {}
+
+    renderRepos(topRepos);
   } catch (err) {
     // Keep fallback cards
   }
@@ -691,8 +728,8 @@ function animeAnimate(targets, params) {
 }
 
 /**
- * Background Scroll Parallax using Anime.js
- * Moves background orb layers in multi-axis opposition for deep visual immersion
+ * Background Scroll Parallax
+ * Hardware-accelerated multi-axis drift synchronized with rAF for 120fps scrolling
  */
 function initAnimeBackgroundParallax() {
   const orb1 = document.querySelector('.orb-layer-1');
@@ -710,60 +747,11 @@ function initAnimeBackgroundParallax() {
     const docHeight = document.documentElement.scrollHeight - window.innerHeight || 1;
     const scrollProgress = Math.min(Math.max(scrollY / docHeight, 0), 1);
 
-    // Layer 1: Downward drift + gentle scaling
-    if (orb1) {
-      animeAnimate(orb1, {
-        translateY: scrollY * 0.26,
-        translateX: Math.sin(scrollProgress * Math.PI) * 40,
-        scale: 1 + scrollProgress * 0.12,
-        duration: 350,
-        ease: 'outQuad'
-      });
-    }
-
-    // Layer 2: Reverse drift + counter-rotation
-    if (orb2) {
-      animeAnimate(orb2, {
-        translateY: -scrollY * 0.22,
-        translateX: -scrollY * 0.1,
-        rotate: scrollProgress * 30,
-        duration: 400,
-        ease: 'outQuad'
-      });
-    }
-
-    // Layer 3: Lateral slide + scaling
-    if (orb3) {
-      animeAnimate(orb3, {
-        translateX: Math.sin(scrollProgress * Math.PI * 1.5) * 55,
-        translateY: -scrollY * 0.16,
-        scale: 1 - scrollProgress * 0.08,
-        duration: 450,
-        ease: 'outQuad'
-      });
-    }
-
-    // Layer 4: Upward counter-scroll
-    if (orb4) {
-      animeAnimate(orb4, {
-        translateY: -scrollY * 0.3,
-        translateX: scrollY * 0.14,
-        rotate: -scrollProgress * 40,
-        duration: 420,
-        ease: 'outQuad'
-      });
-    }
-
-    // Layer 5: Diagonal breathing
-    if (orb5) {
-      animeAnimate(orb5, {
-        translateY: scrollY * 0.15,
-        translateX: -Math.cos(scrollProgress * Math.PI) * 45,
-        rotate: scrollProgress * 45,
-        duration: 480,
-        ease: 'outQuad'
-      });
-    }
+    if (orb1) orb1.style.transform = `translate3d(${Math.sin(scrollProgress * Math.PI) * 35}px, ${scrollY * 0.16}px, 0)`;
+    if (orb2) orb2.style.transform = `translate3d(${-scrollY * 0.08}px, ${-scrollY * 0.14}px, 0) rotate(${scrollProgress * 25}deg)`;
+    if (orb3) orb3.style.transform = `translate3d(${Math.sin(scrollProgress * Math.PI * 1.5) * 40}px, ${-scrollY * 0.1}px, 0)`;
+    if (orb4) orb4.style.transform = `translate3d(${scrollY * 0.1}px, ${-scrollY * 0.18}px, 0)`;
+    if (orb5) orb5.style.transform = `translate3d(${-Math.cos(scrollProgress * Math.PI) * 35}px, ${scrollY * 0.1}px, 0)`;
 
     ticking = false;
   }
@@ -791,92 +779,57 @@ function initAnimeInteractiveHero() {
 
   if (!heroWrap || !photoBox) return;
 
+  let rafId = null;
+
   heroWrap.addEventListener('mousemove', (e) => {
-    const rect = heroWrap.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    const normX = x / (rect.width / 2);
-    const normY = y / (rect.height / 2);
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => {
+      const rect = heroWrap.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const normX = x / (rect.width / 2);
+      const normY = y / (rect.height / 2);
 
-    // 3D Card tilt on photo
-    animeAnimate(photoBox, {
-      rotateY: normX * 12,
-      rotateX: -normY * 12,
-      duration: 350,
-      ease: 'outQuad'
+      photoBox.style.transform = `perspective(1000px) rotateY(${(normX * 9).toFixed(2)}deg) rotateX(${(-normY * 9).toFixed(2)}deg)`;
+      if (photoAura) {
+        photoAura.style.transform = `translate3d(${(normX * 15).toFixed(1)}px, ${(normY * 15).toFixed(1)}px, 0)`;
+      }
+      if (chip1) chip1.style.transform = `translate3d(${(-normX * 12).toFixed(1)}px, ${(-normY * 12).toFixed(1)}px, 0)`;
+      if (chip2) chip2.style.transform = `translate3d(${(normX * 14).toFixed(1)}px, ${(-normY * 14).toFixed(1)}px, 0)`;
+      if (chip3) chip3.style.transform = `translate3d(${(-normX * 16).toFixed(1)}px, ${(normY * 16).toFixed(1)}px, 0)`;
     });
-
-    // Holographic aura shift
-    if (photoAura) {
-      animeAnimate(photoAura, {
-        translateX: normX * 18,
-        translateY: normY * 18,
-        duration: 450,
-        ease: 'outQuad'
-      });
-    }
-
-    // Orbital chips depth parallax
-    if (chip1) {
-      animeAnimate(chip1, {
-        translateX: -normX * 16,
-        translateY: -normY * 16,
-        duration: 500,
-        ease: 'outQuad'
-      });
-    }
-    if (chip2) {
-      animeAnimate(chip2, {
-        translateX: normX * 18,
-        translateY: -normY * 18,
-        duration: 500,
-        ease: 'outQuad'
-      });
-    }
-    if (chip3) {
-      animeAnimate(chip3, {
-        translateX: -normX * 20,
-        translateY: normY * 20,
-        duration: 500,
-        ease: 'outQuad'
-      });
-    }
   });
 
   heroWrap.addEventListener('mouseleave', () => {
-    animeAnimate(photoBox, {
-      rotateY: 0,
-      rotateX: 0,
-      duration: 650,
-      ease: 'outQuad'
-    });
-
+    if (rafId) cancelAnimationFrame(rafId);
+    photoBox.style.transition = 'transform 0.5s ease-out';
+    photoBox.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg)';
     if (photoAura) {
-      animeAnimate(photoAura, {
-        translateX: 0,
-        translateY: 0,
-        duration: 650,
-        ease: 'outQuad'
-      });
+      photoAura.style.transition = 'transform 0.5s ease-out';
+      photoAura.style.transform = 'translate3d(0, 0, 0)';
     }
-
     [chip1, chip2, chip3].forEach(chip => {
       if (chip) {
-        animeAnimate(chip, {
-          translateX: 0,
-          translateY: 0,
-          duration: 650,
-          ease: 'outQuad'
-        });
+        chip.style.transition = 'transform 0.5s ease-out';
+        chip.style.transform = 'translate3d(0, 0, 0)';
       }
     });
+
+    setTimeout(() => {
+      photoBox.style.transition = '';
+      if (photoAura) photoAura.style.transition = '';
+      [chip1, chip2, chip3].forEach(chip => {
+        if (chip) chip.style.transition = '';
+      });
+    }, 500);
   });
 }
 
 /**
  * 12. NOMINAL.SO STYLE BEHIND-TO-FRONT 3D SCROLL DYNAMICS
- * Cards emerge from deep z-space (behind, smaller, blurred) forward into the crisp foreground
+ * Cards emerge from deep z-space (behind, smaller) forward into the crisp foreground
  * as the user scrolls down towards and through Projects and Skills sections.
+ * Optimized with IntersectionObserver to eliminate scroll layout thrashing.
  */
 function initNominalBehindToFrontScroll() {
   const cards = document.querySelectorAll('.project-card, .skill-cat-card, .mini-card');
@@ -885,91 +838,87 @@ function initNominalBehindToFrontScroll() {
   // Initialize initial 3D behind state for all cards
   cards.forEach(card => {
     card.style.transformOrigin = 'center center';
-    card.style.transform = 'perspective(1200px) translate3d(0, 50px, -150px) scale(0.85)';
-    card.style.opacity = '0.2';
-    card.style.filter = 'blur(4px)';
+    card.style.transform = 'perspective(1000px) translate3d(0, 45px, -80px) scale(0.92)';
+    card.style.opacity = '0';
+    card.style.willChange = 'transform, opacity';
   });
 
-  const animatedCards = new WeakSet();
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const card = entry.target;
+        obs.unobserve(card);
 
-  function checkCardPositions() {
-    const windowHeight = window.innerHeight;
-
-    cards.forEach((card, index) => {
-      const rect = card.getBoundingClientRect();
-      // Trigger when card enters the active viewport window (bottom 92%)
-      if (rect.top < windowHeight * 0.92 && rect.bottom > 0) {
-        if (!animatedCards.has(card)) {
-          animatedCards.add(card);
-
-          // Fly forward from behind to front with Anime.js
-          animeAnimate(card, {
-            translateZ: [-150, 0],
-            translateY: [50, 0],
-            scale: [0.85, 1],
-            opacity: [0.2, 1],
-            filter: ['blur(4px)', 'blur(0px)'],
-            duration: 850,
-            delay: (index % 2) * 90,
-            ease: 'outExpo',
-            complete: () => {
-              card.style.filter = 'none';
-            }
-          });
-
-          // Stagger internal skill badges if it's a skill category card
-          const pills = card.querySelectorAll('.skill-pill');
-          if (pills.length) {
-            animeAnimate(pills, {
-              scale: [0.7, 1],
-              opacity: [0, 1],
-              translateY: [12, 0],
-              delay: (el, i) => 120 + i * 30,
-              duration: 500,
-              ease: 'outBack'
-            });
+        // Fly forward smoothly from behind to front with Anime.js
+        animeAnimate(card, {
+          translateZ: [-80, 0],
+          translateY: [45, 0],
+          scale: [0.92, 1],
+          opacity: [0, 1],
+          duration: 750,
+          ease: 'outExpo',
+          complete: () => {
+            card.style.transform = '';
+            card.style.opacity = '';
+            card.style.willChange = '';
+            card.classList.add('nominal-revealed');
           }
+        });
+
+        // Stagger internal skill badges if it's a skill category card
+        const pills = card.querySelectorAll('.skill-pill');
+        if (pills.length) {
+          animeAnimate(pills, {
+            scale: [0.75, 1],
+            opacity: [0, 1],
+            translateY: [10, 0],
+            delay: (el, i) => 80 + i * 25,
+            duration: 450,
+            ease: 'outBack'
+          });
         }
       }
     });
-  }
+  }, {
+    rootMargin: '0px 0px -40px 0px',
+    threshold: 0.1
+  });
 
-  window.addEventListener('scroll', checkCardPositions, { passive: true });
-  window.addEventListener('resize', checkCardPositions, { passive: true });
-
-  // Initial check
-  checkCardPositions();
+  cards.forEach(card => observer.observe(card));
 }
 
 /**
  * 13. NOMINAL.SO INTERACTIVE 3D CARD TILT ON HOVER
+ * Buttery 120fps hardware-accelerated tilt on mouse move, zero jank
  */
 function init3DCardTilt() {
   const cards = document.querySelectorAll('.project-card, .skill-cat-card, .mini-card');
 
   cards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      const normX = x / (rect.width / 2);
-      const normY = y / (rect.height / 2);
+    let rafId = null;
 
-      animeAnimate(card, {
-        rotateY: normX * 7,
-        rotateX: -normY * 7,
-        duration: 250,
-        ease: 'outQuad'
+    card.addEventListener('mousemove', (e) => {
+      if (!card.classList.contains('nominal-revealed') && card.style.opacity !== '') return;
+
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const normX = x / (rect.width / 2);
+        const normY = y / (rect.height / 2);
+
+        card.style.transform = `perspective(1000px) rotateY(${(normX * 5.5).toFixed(2)}deg) rotateX(${(-normY * 5.5).toFixed(2)}deg) translateY(-4px)`;
       });
     });
 
     card.addEventListener('mouseleave', () => {
-      animeAnimate(card, {
-        rotateY: 0,
-        rotateX: 0,
-        duration: 500,
-        ease: 'outQuad'
-      });
+      if (rafId) cancelAnimationFrame(rafId);
+      card.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+      card.style.transform = '';
+      setTimeout(() => {
+        card.style.transition = '';
+      }, 400);
     });
   });
 }
@@ -1030,23 +979,24 @@ function createParticleBurst(x, y) {
   container.style.zIndex = '99999';
   document.body.appendChild(container);
 
-  const particleCount = 18;
-  const colors = ['#60A5FA', '#818CF8', '#C084FC', '#38BDF8', '#FFFFFF'];
+  const particleCount = 14;
+  const colors = ['#60A5FA', '#38BDF8', '#818CF8', '#0284C7', '#FFFFFF'];
 
   for (let i = 0; i < particleCount; i++) {
     const p = document.createElement('div');
-    const size = Math.random() * 5 + 3;
+    const size = Math.random() * 4 + 3;
     p.style.position = 'absolute';
     p.style.width = `${size}px`;
     p.style.height = `${size}px`;
     p.style.borderRadius = '50%';
     p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-    p.style.boxShadow = `0 0 10px ${p.style.backgroundColor}`;
+    p.style.boxShadow = `0 0 8px ${p.style.backgroundColor}`;
     p.style.transform = 'translate(-50%, -50%)';
+    p.style.willChange = 'transform, opacity';
     container.appendChild(p);
 
-    const angle = (Math.PI * 2 * i) / particleCount + (Math.random() - 0.5) * 0.5;
-    const distance = Math.random() * 60 + 35;
+    const angle = (Math.PI * 2 * i) / particleCount + (Math.random() - 0.5) * 0.4;
+    const distance = Math.random() * 50 + 25;
     const targetX = Math.cos(angle) * distance;
     const targetY = Math.sin(angle) * distance;
 
@@ -1056,11 +1006,11 @@ function createParticleBurst(x, y) {
         translateY: [0, targetY],
         scale: [1, 0],
         opacity: [1, 0],
-        duration: Math.random() * 300 + 400,
+        duration: Math.random() * 250 + 350,
         ease: 'outExpo'
       });
     }
   }
 
-  setTimeout(() => container.remove(), 800);
+  setTimeout(() => container.remove(), 650);
 }
