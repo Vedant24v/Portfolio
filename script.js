@@ -1,7 +1,7 @@
 /**
  * ==========================================================================
  * VEDANT VYAWHARE — PORTFOLIO RUNTIME
- * Senior-engineered JavaScript: Navigation, Typing, Modals, GitHub API, Contact
+ * Vibrant Glassmorphism + Background Particles + Orbitals + Modals
  * ==========================================================================
  */
 
@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTypingAnimation();
   initNavigation();
   initBackToTop();
+  initBackgroundParticles();
   initGitHubRepos();
   initModalKeyListeners();
 });
@@ -33,9 +34,9 @@ function initTypingAnimation() {
 
   const phrases = [
     'Backend Engineering',
-    'Full-Stack Development',
-    'API Design & Integrations',
-    'Building Scalable Products'
+    'Full-Stack MERN Dev',
+    'Python & AI Systems',
+    'REST APIs & Cloud Architecture'
   ];
 
   let phraseIndex = 0;
@@ -49,7 +50,7 @@ function initTypingAnimation() {
     if (isDeleting) {
       typingEl.textContent = currentPhrase.substring(0, charIndex - 1);
       charIndex--;
-      typingSpeed = 45;
+      typingSpeed = 40;
     } else {
       typingEl.textContent = currentPhrase.substring(0, charIndex + 1);
       charIndex++;
@@ -57,11 +58,9 @@ function initTypingAnimation() {
     }
 
     if (!isDeleting && charIndex === currentPhrase.length) {
-      // Pause at end of phrase
       isDeleting = true;
-      typingSpeed = 1600;
+      typingSpeed = 1800;
     } else if (isDeleting && charIndex === 0) {
-      // Switch to next phrase
       isDeleting = false;
       phraseIndex = (phraseIndex + 1) % phrases.length;
       typingSpeed = 400;
@@ -74,17 +73,88 @@ function initTypingAnimation() {
 }
 
 /* ==========================================================================
-   3. STICKY NAVIGATION & ACTIVE SCROLL SPY
+   3. CONTINUOUS BACKGROUND PARTICLE CONSTELLATION
+   ========================================================================== */
+function initBackgroundParticles() {
+  const canvas = document.getElementById('particle-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let width = (canvas.width = window.innerWidth);
+  let height = (canvas.height = window.innerHeight);
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+
+  const particleCount = Math.min(Math.floor(window.innerWidth / 20), 65);
+  const particles = [];
+
+  for (let i = 0; i < particleCount; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.45,
+      vy: (Math.random() - 0.5) * 0.45,
+      radius: Math.random() * 2 + 1,
+      color: i % 2 === 0 ? 'rgba(79, 70, 229, 0.4)' : 'rgba(6, 182, 212, 0.4)'
+    });
+  }
+
+  function render() {
+    ctx.clearRect(0, 0, width, height);
+
+    // Draw and update particles
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0) p.x = width;
+      if (p.x > width) p.x = 0;
+      if (p.y < 0) p.y = height;
+      if (p.y > height) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+
+      // Connect nearby particles with subtle gradient line
+      for (let j = i + 1; j < particles.length; j++) {
+        const p2 = particles[j];
+        const dx = p.x - p2.x;
+        const dy = p.y - p2.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 110) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = `rgba(99, 102, 241, ${0.15 * (1 - dist / 110)})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  render();
+}
+
+/* ==========================================================================
+   4. STICKY NAVIGATION & ACTIVE SCROLL SPY
    ========================================================================== */
 function initNavigation() {
   const header = document.getElementById('header');
   const mobileToggle = document.getElementById('mobileToggle');
   const mobileMenu = document.getElementById('mobileMenu');
-  const mobileIcon = document.getElementById('mobileIcon');
   const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
   const sections = document.querySelectorAll('section[id]');
 
-  // Header scroll shadow
   window.addEventListener('scroll', () => {
     if (window.scrollY > 40) {
       header.classList.add('scrolled');
@@ -93,23 +163,18 @@ function initNavigation() {
     }
   }, { passive: true });
 
-  // Mobile menu toggle
   if (mobileToggle && mobileMenu) {
     mobileToggle.addEventListener('click', () => {
-      const isOpen = mobileMenu.classList.toggle('open');
-      mobileIcon.className = isOpen ? 'bx bx-x' : 'bx bx-menu';
+      mobileMenu.classList.toggle('open');
     });
 
-    // Close menu when clicking nav links
     document.querySelectorAll('.mobile-nav-link').forEach(link => {
       link.addEventListener('click', () => {
         mobileMenu.classList.remove('open');
-        mobileIcon.className = 'bx bx-menu';
       });
     });
   }
 
-  // Active section intersection observer
   const observerOptions = {
     root: null,
     rootMargin: '-20% 0px -65% 0px',
@@ -135,7 +200,7 @@ function initNavigation() {
 }
 
 /* ==========================================================================
-   4. BACK TO TOP BUTTON
+   5. BACK TO TOP
    ========================================================================== */
 function initBackToTop() {
   const btn = document.getElementById('backToTopBtn');
@@ -151,25 +216,24 @@ function initBackToTop() {
 }
 
 /* ==========================================================================
-   5. EXPANDABLE "MORE PROJECTS" TOGGLE
+   6. MORE PROJECTS TOGGLE
    ========================================================================== */
 function toggleMoreProjects() {
   const grid = document.getElementById('moreProjectsGrid');
   const btn = document.getElementById('toggleMoreProjectsBtn');
-  const icon = document.getElementById('moreProjectsIcon');
 
   if (!grid || !btn) return;
 
   const isExpanded = grid.classList.toggle('expanded');
   if (isExpanded) {
-    btn.innerHTML = `<i class='bx bx-chevron-up' id="moreProjectsIcon"></i> Hide Additional Experiments`;
+    btn.innerHTML = `<i class='bx bx-chevron-up'></i> Hide Additional Experiments`;
   } else {
-    btn.innerHTML = `<i class='bx bx-chevron-down' id="moreProjectsIcon"></i> View More Projects &amp; Experiments`;
+    btn.innerHTML = `<i class='bx bx-chevron-down'></i> View More Projects &amp; Experiments`;
   }
 }
 
 /* ==========================================================================
-   6. APT ALGO CASE STUDY MODAL
+   7. APT ALGO CASE STUDY MODAL
    ========================================================================== */
 function openAptAlgoModal() {
   const modal = document.getElementById('aptAlgoModal');
@@ -188,7 +252,7 @@ function closeAptAlgoModal() {
 }
 
 /* ==========================================================================
-   7. DETAILED PROJECT CASE STUDIES MODAL DATA & HANDLERS
+   8. PROJECT DETAIL MODALS DATA & HANDLERS
    ========================================================================== */
 const projectDataStore = {
   repox: {
@@ -197,44 +261,44 @@ const projectDataStore = {
     subtitle: 'Next.js 15 · FastAPI · Groq (Llama 3.3 70B) · Mermaid.js',
     githubUrl: 'https://github.com/Vedant24v/Repox',
     liveUrl: 'https://repox-alpha.vercel.app',
-    overview: 'Repox transforms uploaded repository ZIP files into modular, multi-level tutorials. It addresses the steep onboarding curve engineers experience when exploring complex, unfamiliar codebases.',
+    overview: 'Repox transforms uploaded repository ZIP files into modular, multi-level tutorials. It solves the steep onboarding curve engineers experience when exploring complex, unfamiliar codebases.',
     architecture: `
-┌───────────────────────────┐         ┌──────────────────────────────┐
-│  Next.js 15 Client        │  POST   │  FastAPI Backend             │
-│  (ZIP Upload / UI State)  │ ──────> │  - Unpack & Heuristic Filter │
-└───────────────────────────┘         │  - Static AST File Mapper    │
-              │                       └──────────────────────────────┘
-              ▼                                       │
-┌───────────────────────────┐                         ▼
-│  Mermaid.js Visualizer    │         ┌──────────────────────────────┐
-│  (Architecture & ERDs)    │ <────── │  Groq API (Llama 3.3 70B)    │
-└───────────────────────────┘         │  - Evidence-Graded Content   │
-                                      └──────────────────────────────┘
+[Next.js 15 Client] ──(ZIP Upload)──> [FastAPI Backend]
+                                             │
+                       ┌─────────────────────┴─────────────────────┐
+                       ▼                                           ▼
+             [AST File Parser]                           [Regex Secret Scanner]
+                       │                                           │
+                       ▼                                           ▼
+             [Mermaid.js Diagram]                        [Groq Llama 3.3 70B]
+                       │                                           │
+                       └─────────────────────┬─────────────────────┘
+                                             ▼
+                               [Downloadable ZIP Tutorial]
     `,
     contributions: [
-      'Engineered the heuristic static-analysis engine scanning Python, TypeScript, and JavaScript to extract routes, models, and dependencies.',
-      'Constructed automated Mermaid.js diagram generation producing deterministic architecture, ERD, and user-flow maps.',
+      'Engineered heuristic static-analysis pipeline detecting 10+ languages (React, FastAPI, Django, Express) mapping file relationships and API routes.',
+      'Constructed automated Mermaid.js diagram generation producing deterministic architecture, user-flow, and ERD diagrams.',
       'Integrated regex pattern scanning to detect accidentally committed tokens, API keys, and secret credentials before ingestion.',
       'Configured production deployment pairing Next.js 15 on Vercel with containerized FastAPI on Render.'
     ],
-    challenges: 'Balancing LLM context window limits with multi-thousand line repositories. Solved by pre-ranking files using AST depth metrics and pruning test mocks, node_modules, and cache files prior to LLM summarization.'
+    challenges: 'Balancing LLM context window limits with large repositories. Solved by pre-ranking files using AST depth metrics and pruning test mocks, node_modules, and cache files.'
   },
 
   taskflow: {
     tag: 'FULL-STACK MERN SYSTEM',
-    title: 'TaskFlow — Collaborative Kanban System',
+    title: 'TaskFlow — Full-Stack Task Management App',
     subtitle: 'React 18 · Node.js · Express.js · MongoDB · JWT · @dnd-kit',
     githubUrl: 'https://github.com/Vedant24v/taskflow',
     liveUrl: 'https://taskkfloww.vercel.app',
-    overview: 'Production-ready, Jira-style task management platform supporting multi-tenant role isolation, Kanban boards, and real-time state synchronization.',
+    overview: 'Production-ready, Jira-style Kanban board application with JWT authentication, role-based data isolation, and smooth drag-and-drop task workflows.',
     architecture: `
-[React 18 Client + @dnd-kit]
+[React 18 UI + @dnd-kit]
            │
-           │ JWT Bearer Token (Secure HttpOnly Refresh)
-           ▼
+           ▼ (JWT Refresh-Token HttpOnly Auth)
 [Express.js REST Middleware]
     ├── Authentication Guard
-    ├── Role-Based Access Control (Admin / Member)
+    ├── Role-Based Data Isolation
     └── Schema Validation
            │
            ▼
@@ -242,12 +306,11 @@ const projectDataStore = {
     (Tasks, Columns, Activity Logs, Users)
     `,
     contributions: [
-      'Implemented JWT refresh-token authentication pipeline with bcryptjs password hashing and strict data isolation per workspace.',
-      'Engineered smooth drag-and-drop column transitions using @dnd-kit with optimistic client UI updates and rollback on network failure.',
-      'Designed normalized Mongoose schemas indexing workspace and user references for sub-50ms query responses.',
-      'Deployed serverless API endpoints to Vercel with environment-separated staging and production configs.'
+      'Built a production-grade Jira-style Kanban board with JWT authentication, role-based data isolation, and drag-and-drop task management using @dnd-kit.',
+      'Designed a RESTful MERN backend with Mongoose schemas and Express middleware with serverless deployment on Vercel supporting full CRUD for tasks, users, and teams.',
+      'Implemented JWT refresh-token auth with bcryptjs password hashing, per-user data isolation, and environment-separated config for local and cloud deployments.'
     ],
-    challenges: 'Preventing race conditions when multiple users reordered tasks simultaneously. Implemented fractional index positioning to allow continuous reordering without bulk database updates.'
+    challenges: 'Preventing race conditions when multiple users reorder tasks simultaneously. Implemented fractional index positioning to allow continuous reordering without bulk database updates.'
   },
 
   indusmind: {
@@ -256,12 +319,9 @@ const projectDataStore = {
     subtitle: 'FastAPI · React · Qdrant Cloud · Hugging Face · Groq Llama 3.1 · MCP',
     githubUrl: 'https://github.com/Vedant24v/Indus_Mind',
     liveUrl: null,
-    overview: 'A specialized Retrieval-Augmented Generation platform tailored for Architecture, Engineering, and Construction (AEC) technical manuals and complex industrial blueprints.',
+    overview: 'A specialized Retrieval-Augmented Generation platform tailored for Architecture, Engineering, and Construction (AEC) technical manuals and industrial blueprints.',
     architecture: `
-[Industrial PDF Manuals] ──> [PyMuPDF Parsing & Semantic Chunking]
-                                           │
-                                           ▼
-                                [Hugging Face Embeddings]
+[Industrial PDF Manuals] ──> [Semantic Parser & Table Chunker]
                                            │
                                            ▼
                                 [Qdrant Cloud Vector DB]
@@ -271,19 +331,18 @@ const projectDataStore = {
     contributions: [
       'Constructed project-isolated vector ingestion pipeline in Qdrant Cloud with strict collection segmentation.',
       'Integrated Hugging Face serverless embedding models with Groq (Llama 3.1) for high-accuracy response synthesis with verifiable page references.',
-      'Built Model Context Protocol (MCP) server endpoints enabling external tools like Claude Desktop to query industrial technical specs.',
-      'Implemented token-efficient re-ranking to prioritize critical compliance and safety paragraphs.'
+      'Built Model Context Protocol (MCP) server endpoints enabling external tools like Claude Desktop to query industrial technical specs.'
     ],
-    challenges: 'Industrial manuals contain tabular equipment specs and technical tolerances that naive chunking fragmented. Designed a table-aware parser preserving markdown tables during chunking.'
+    challenges: 'Preserving tabular specifications during chunking. Designed a table-aware parser preserving markdown tables during chunking.'
   },
 
   medtrace: {
-    tag: 'PHARMACEUTICAL COMPLIANCE SYSTEM',
-    title: 'MedTrace — Electronic Batch Record (EBR) System',
-    subtitle: 'React · Node.js · Express.js · MongoDB · PDFKit · JWT',
+    tag: 'PHARMA BATCH RECORD TRACKER',
+    title: 'MedTrace — Pharma Batch Record Tracker (EBR/MES)',
+    subtitle: 'React · Node.js · Express.js · MongoDB · PDFKit · Recharts',
     githubUrl: 'https://github.com/Vedant24v/MedTrace',
     liveUrl: null,
-    overview: 'A digital Electronic Batch Record management system designed for pharmaceutical manufacturing, replacing error-prone paper batch files with audit-compliant digital verification.',
+    overview: 'Full-stack Electronic Batch Record (EBR) system simulating pharmaceutical MES workflows: recipe management, sequential batch execution, digital e-signatures, and admin approval flows.',
     architecture: `
 [Operator / QA Input] ──> [Express Validation & Role Auth]
                                       │
@@ -298,21 +357,73 @@ const projectDataStore = {
                         [Automated PDFKit Report Engine]
     `,
     contributions: [
-      'Developed cryptographic audit-trail logging tracking every user operation, timestamp, and field mutation.',
-      'Implemented multi-tier approval flows: Operator Execution → QA Review → Production Release.',
-      'Engineered automated PDF generation using PDFKit producing audit-ready, formatted batch certificates.',
-      'Constructed role-based access control safeguarding sensitive drug formulation data.'
+      'Engineered a full-stack Electronic Batch Record (EBR) system simulating pharmaceutical MES workflows, recipe management, sequential batch execution, and digital e-signatures.',
+      'Built role-based access control (Operator vs Admin) with httpOnly JWT cookies, CORS protection, and Mongoose injection prevention.',
+      'Integrated pdfkit to generate GMP-compliant batch record PDFs on demand and Recharts for an admin analytics dashboard tracking KPIs and 30-day batch trends.'
     ],
     challenges: 'Ensuring immutable audit logs without database performance degradation. Implemented write-only append logs for audit trails paired with indexed reference queries.'
   },
 
+  weapondetector: {
+    tag: 'COMPUTER VISION (YOLOv8)',
+    title: 'Real Time Weapon Detector',
+    subtitle: 'Python · YOLOv8n (Ultralytics) · OpenCV · Tkinter',
+    githubUrl: 'https://github.com/Vedant24v/Real-Time-Weapon-Detector',
+    liveUrl: null,
+    overview: 'Trained a YOLOv8n model to detect 5 weapon classes (handguns, rifles, knives, explosives) in real time via webcam with per-frame FPS and latency telemetry.',
+    architecture: `
+[Live Video Feed (OpenCV)] ──> [Frame Preprocessing & Normalization]
+                                                │
+                                                ▼
+                                    [YOLOv8n Inference Engine]
+                                                │
+                                                ▼
+                                  [Confidence Threshold Slider]
+                                                │
+                                                ▼
+                                  [Tkinter Telemetry UI & CSV Export]
+    `,
+    contributions: [
+      'Trained a YOLOv8n model to detect 5 weapon classes in real time via webcam with per-frame FPS and latency telemetry displayed in a desktop Tkinter console.',
+      'Added confidence-threshold slider for precision control, per-category detection breakdown, and CSV + snapshot export for audit-friendly evidence logging.',
+      'Optimized frame inference pipeline with OpenCV to maintain steady 30+ FPS video processing.'
+    ],
+    challenges: 'Reducing false positives from handheld items. Augmented the training dataset with varied lighting and bounding box scales.'
+  },
+
+  jobalert: {
+    tag: 'AUTOMATION & SCRAPING',
+    title: 'Internshala Job Alert Bot',
+    subtitle: 'Python · BeautifulSoup · Requests · Telegram Bot API',
+    githubUrl: 'https://github.com/Vedant24v/job-alert-bot',
+    liveUrl: null,
+    overview: 'Automated daily scraping of Internshala, filtering listings by keyword and location, deduplicating across runs, and pushing formatted alerts with apply links to Telegram at 9 AM.',
+    architecture: `
+[Daily Cron Trigger @ 9 AM]
+           │
+           ▼
+[BeautifulSoup + Requests Scraper]
+           │
+           ▼
+[Persistent Deduplication Store]
+           │
+           ▼
+[Telegram Bot API Push Notification]
+    `,
+    contributions: [
+      'Automated daily scraping of Internshala, filtering listings by keyword and location, deduplicating across runs, and pushing formatted alerts to Telegram.',
+      'Built persistent deduplication using a local store to prevent repeat notifications; optimised crawl intervals to avoid rate limiting.'
+    ],
+    challenges: 'Dynamic DOM updates on listing sites. Engineered robust fallback selectors and exponential backoff retry algorithms.'
+  },
+
   apitest: {
-    tag: 'AUTOMATED TEST ENGINEERING',
+    tag: 'AUTOMATED API TESTING',
     title: 'Automated API Test Framework',
     subtitle: 'Python · Pytest · Requests · pytest-html',
     githubUrl: 'https://github.com/Vedant24v/api-test-framework',
     liveUrl: null,
-    overview: 'An automated REST API test framework delivering comprehensive endpoint validation, regression testing, and instant visual reporting.',
+    overview: 'Automated API testing suite executing 54 REST API tests with session fixtures, response schema assertions, and self-contained HTML test reports.',
     architecture: `
 [pytest CLI / CI Trigger]
            │
@@ -329,38 +440,9 @@ const projectDataStore = {
     contributions: [
       'Engineered 54 automated pytest cases covering happy paths, authentication failures, edge cases, and schema mismatch validations.',
       'Created modular session fixtures eliminating duplicate login requests and reducing test execution time by 60%.',
-      'Configured automated HTML report generation detailing assertions, timing benchmarks, and response payloads.',
-      'Established parameter-driven negative testing to ensure APIs strictly return standard HTTP 4xx and 5xx error structures.'
+      'Configured automated HTML report generation detailing assertions, timing benchmarks, and response payloads.'
     ],
     challenges: 'Handling stateful dependent tests without cascade failures. Engineered clean fixture teardowns ensuring tests run completely decoupled and isolated.'
-  },
-
-  weapondetector: {
-    tag: 'COMPUTER VISION & SAFETY',
-    title: 'Real-Time Weapon Detection System',
-    subtitle: 'Python · YOLOv8 · OpenCV · Tkinter',
-    githubUrl: null,
-    liveUrl: null,
-    overview: 'A real-time computer vision system built to detect firearms and dangerous weapons from live surveillance camera streams to enhance security monitoring.',
-    architecture: `
-[Live Video Feed (OpenCV)] ──> [Frame Preprocessing (Resizing & Normalization)]
-                                                │
-                                                ▼
-                                    [YOLOv8 Inference Engine]
-                                                │
-                                                ▼
-                                  [Bounding Box & Confidence Threshold]
-                                                │
-                                                ▼
-                                  [Tkinter Telemetry UI & Audio Alert]
-    `,
-    contributions: [
-      'Trained and optimized a lightweight YOLOv8 neural network for fast inference on edge camera streams.',
-      'Constructed real-time video pipeline using OpenCV with frame-skipping optimizations to maintain 30+ FPS.',
-      'Engineered a Tkinter desktop interface displaying detection bounding boxes, confidence percentages, and operator alerts.',
-      'Implemented persistence logging for security incident timestamps and frame snapshots.'
-    ],
-    challenges: 'Minimizing false positives caused by common objects (such as mobile phones). Tuned confidence thresholds and augmented training dataset with varied angles and lighting conditions.'
   }
 };
 
@@ -380,31 +462,31 @@ function openProjectModal(projectId) {
 
   let linksHtml = '';
   if (data.githubUrl) {
-    linksHtml += `<a href="${data.githubUrl}" target="_blank" rel="noopener noreferrer" class="neu-btn" style="padding:0.5rem 1rem; font-size:0.85rem;"><i class='bx bxl-github'></i> View Repository</a> `;
+    linksHtml += `<a href="${data.githubUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" style="padding:0.5rem 1.1rem; font-size:0.85rem;"><i class='bx bxl-github'></i> View Repository</a> `;
   }
   if (data.liveUrl) {
-    linksHtml += `<a href="${data.liveUrl}" target="_blank" rel="noopener noreferrer" class="neu-btn neu-btn-primary" style="padding:0.5rem 1rem; font-size:0.85rem;"><i class='bx bx-link-external'></i> Live Deployment</a> `;
+    linksHtml += `<a href="${data.liveUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding:0.5rem 1.1rem; font-size:0.85rem;"><i class='bx bx-link-external'></i> Live Demo</a> `;
   }
 
   content.innerHTML = `
     <div>
-      <h3 style="font-size:1.15rem; margin-bottom:0.5rem;">Project Overview</h3>
-      <p style="color:var(--text-secondary); line-height:1.7; font-size:0.95rem;">${data.overview}</p>
+      <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.5rem;">Project Overview</h3>
+      <p style="color:var(--text-secondary); line-height:1.75; font-size:0.98rem;">${data.overview}</p>
     </div>
 
     <div>
-      <h3 style="font-size:1.15rem; margin-bottom:0.5rem;">Architecture &amp; Data Flow</h3>
+      <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.5rem;">Architecture Flow</h3>
       <div class="diagram-box">
         <pre>${data.architecture.trim()}</pre>
       </div>
     </div>
 
     <div>
-      <h3 style="font-size:1.15rem; margin-bottom:0.5rem;">Key Engineering Contributions</h3>
-      <ul style="list-style:none; display:flex; flex-direction:column; gap:0.6rem;">
+      <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.5rem;">Key Engineering Highlights</h3>
+      <ul style="list-style:none; display:flex; flex-direction:column; gap:0.65rem;">
         ${data.contributions.map(item => `
-          <li style="display:flex; gap:0.5rem; color:var(--text-secondary); font-size:0.92rem;">
-            <i class='bx bx-check-circle' style="color:var(--accent); font-size:1.1rem; flex-shrink:0; margin-top:0.15rem;"></i>
+          <li style="display:flex; gap:0.6rem; color:var(--text-secondary); font-size:0.95rem;">
+            <i class='bx bx-check-circle' style="color:var(--primary); font-size:1.2rem; flex-shrink:0; margin-top:0.15rem;"></i>
             <span>${item}</span>
           </li>
         `).join('')}
@@ -412,8 +494,8 @@ function openProjectModal(projectId) {
     </div>
 
     <div>
-      <h3 style="font-size:1.15rem; margin-bottom:0.5rem;">Engineering Challenge &amp; Solution</h3>
-      <p style="color:var(--text-secondary); line-height:1.65; font-size:0.92rem; background:var(--surface); padding:1rem; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); box-shadow:var(--shadow-neu-inset-sm);">
+      <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.5rem;">Technical Challenge &amp; Solution</h3>
+      <p style="color:var(--text-secondary); line-height:1.7; font-size:0.95rem; background:var(--bg-page); padding:1rem; border-radius:var(--radius-sm); border:1px solid rgba(226, 232, 240, 0.9);">
         ${data.challenges}
       </p>
     </div>
@@ -434,7 +516,6 @@ function closeProjectModal() {
 }
 
 function initModalKeyListeners() {
-  // Close modals on Escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeAptAlgoModal();
@@ -442,7 +523,6 @@ function initModalKeyListeners() {
     }
   });
 
-  // Close modals when clicking on backdrop
   const modals = document.querySelectorAll('.modal-backdrop');
   modals.forEach(modal => {
     modal.addEventListener('click', (e) => {
@@ -455,49 +535,41 @@ function initModalKeyListeners() {
 }
 
 /* ==========================================================================
-   8. GITHUB PUBLIC REPOSITORIES INTEGRATION
+   9. GITHUB REPOSITORIES FETCH
    ========================================================================== */
 async function initGitHubRepos() {
   const container = document.getElementById('githubReposGrid');
   if (!container) return;
 
   try {
-    const res = await fetch('https://api.github.com/users/Vedant24v/repos?sort=updated&per_page=6', {
-      headers: { 'Accept': 'application/vnd.github.v3+json' }
-    });
-
-    if (!res.ok) {
-      console.warn('GitHub API rate limit or error:', res.status);
-      return; // Keep verified fallback static cards
-    }
+    const res = await fetch('https://api.github.com/users/Vedant24v/repos?sort=updated&per_page=6');
+    if (!res.ok) return;
 
     const repos = await res.json();
     if (!Array.isArray(repos) || repos.length === 0) return;
 
-    // Filter out forks if desired, or pick top 6
     const topRepos = repos.slice(0, 6);
-
-    const cardsHtml = topRepos.map(repo => {
-      const desc = repo.description || 'Public software engineering repository on GitHub.';
+    container.innerHTML = topRepos.map(repo => {
+      const desc = repo.description || 'Software engineering repository by Vedant Vyawhare.';
       const lang = repo.language || 'Code';
       const stars = repo.stargazers_count || 0;
       const forks = repo.forks_count || 0;
 
       return `
-        <div class="repo-card">
+        <div class="glass-card repo-card">
           <div class="repo-header">
             <span class="repo-title">
-              <i class='bx bx-book-bookmark' style="color:var(--accent);"></i> ${escapeHtml(repo.name)}
+              <i class='bx bx-book-bookmark' style="color:var(--primary);"></i> ${escapeHtml(repo.name)}
             </span>
-            <span class="neu-badge">${escapeHtml(lang)}</span>
+            <span class="badge-pill" style="font-size:0.75rem;">${escapeHtml(lang)}</span>
           </div>
           <p class="repo-desc">${escapeHtml(desc)}</p>
           <div class="repo-meta">
-            <span class="repo-lang"><span class="lang-dot"></span> ${escapeHtml(lang)}</span>
-            <div class="repo-stats">
+            <span><span class="lang-dot"></span> ${escapeHtml(lang)}</span>
+            <div style="display:flex; gap:0.75rem;">
               <span><i class='bx bx-star'></i> ${stars}</span>
               <span><i class='bx bx-git-repo-forked'></i> ${forks}</span>
-              <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" style="color:var(--accent); font-weight:600; margin-left:0.35rem;">
+              <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" style="color:var(--primary); font-weight:700;">
                 <i class='bx bx-link-external'></i>
               </a>
             </div>
@@ -505,11 +577,8 @@ async function initGitHubRepos() {
         </div>
       `;
     }).join('');
-
-    container.innerHTML = cardsHtml;
   } catch (err) {
-    console.warn('Could not fetch GitHub repositories, using fallback:', err);
-    // Verified fallback cards remain visible
+    // Keep fallback cards
   }
 }
 
@@ -525,79 +594,63 @@ function escapeHtml(str) {
 }
 
 /* ==========================================================================
-   9. COPY EMAIL INTERACTION
+   10. COPY EMAIL & CONTACT FORM DISPATCH
    ========================================================================== */
 function copyEmail() {
   const emailText = 'vedantvyawhare2000@gmail.com';
   const btn = document.getElementById('copyEmailBtn');
 
-  if (navigator.clipboard && navigator.clipboard.writeText) {
+  if (navigator.clipboard) {
     navigator.clipboard.writeText(emailText).then(() => {
-      showCopiedSuccess(btn);
-    }).catch(() => {
-      fallbackCopy(emailText, btn);
-    });
+      showCopied(btn);
+    }).catch(() => fallbackCopy(emailText, btn));
   } else {
     fallbackCopy(emailText, btn);
   }
 }
 
-function showCopiedSuccess(btn) {
+function showCopied(btn) {
   if (!btn) return;
-  const original = btn.innerHTML;
+  const orig = btn.innerHTML;
   btn.innerHTML = `<i class='bx bx-check'></i> Copied!`;
-  btn.style.color = 'var(--success)';
+  btn.style.background = 'var(--grad-emerald)';
+  btn.style.color = '#FFFFFF';
   setTimeout(() => {
-    btn.innerHTML = original;
+    btn.innerHTML = orig;
+    btn.style.background = '';
     btn.style.color = '';
   }, 2200);
 }
 
 function fallbackCopy(text, btn) {
-  const tempInput = document.createElement('input');
-  tempInput.value = text;
-  document.body.appendChild(tempInput);
-  tempInput.select();
-  try {
-    document.execCommand('copy');
-    showCopiedSuccess(btn);
-  } catch (e) {
-    alert('Email: ' + text);
-  }
-  document.body.removeChild(tempInput);
+  const input = document.createElement('input');
+  input.value = text;
+  document.body.appendChild(input);
+  input.select();
+  document.execCommand('copy');
+  document.body.removeChild(input);
+  showCopied(btn);
 }
 
-/* ==========================================================================
-   10. FUNCTIONAL CONTACT FORM (WITH MAILTO DISPATCH & HONEST FEEDBACK)
-   ========================================================================== */
-function handleContactSubmit(event) {
-  event.preventDefault();
-
+function handleContactSubmit(e) {
+  e.preventDefault();
   const name = document.getElementById('contactName').value.trim();
   const email = document.getElementById('contactEmail').value.trim();
   const subject = document.getElementById('contactSubject').value.trim();
   const message = document.getElementById('contactMessage').value.trim();
   const statusMsg = document.getElementById('formStatusMsg');
 
-  if (!name || !email || !message) {
-    alert('Please fill out all required fields.');
-    return;
-  }
+  const encodedSubject = encodeURIComponent(`[Portfolio Contact] ${subject} - ${name}`);
+  const encodedBody = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
 
-  const encodedSubject = encodeURIComponent(`[Portfolio Inquiry] ${subject} - ${name}`);
-  const encodedBody = encodeURIComponent(
-    `Hello Vedant,\n\n${message}\n\nFrom: ${name}\nEmail: ${email}`
-  );
-
-  const mailtoUrl = `mailto:vedantvyawhare2000@gmail.com?subject=${encodedSubject}&body=${encodedBody}`;
-
-  // Honest status update: never claim "Message Sent!" without an API transmission
   if (statusMsg) {
-    statusMsg.className = 'form-status-msg success';
-    statusMsg.innerHTML = `<i class='bx bx-check-circle'></i> Launching your mail client to send to <strong>vedantvyawhare2000@gmail.com</strong>...`;
+    statusMsg.className = 'badge-pill';
     statusMsg.style.display = 'block';
+    statusMsg.style.width = '100%';
+    statusMsg.style.justifyContent = 'center';
+    statusMsg.style.marginTop = '1rem';
+    statusMsg.innerHTML = `<i class='bx bx-send'></i> Opening your email client to message Vedant...`;
   }
 
-  // Trigger default client
-  window.location.href = mailtoUrl;
+  window.location.href = `mailto:vedantvyawhare2000@gmail.com?subject=${encodedSubject}&body=${encodedBody}`;
 }
