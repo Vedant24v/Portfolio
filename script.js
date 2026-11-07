@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initGitHubRepos();
   initModalKeyListeners();
   initAnimeBackgroundParallax();
-  initCathodeWireframeBackground();
   initAnimeInteractiveHero();
   initNominalBehindToFrontScroll();
   init3DCardTilt();
@@ -80,7 +79,7 @@ function initTypingAnimation() {
 }
 
 /* ==========================================================================
-   3. CONTINUOUS BACKGROUND PARTICLE CONSTELLATION
+   3. CONTINUOUS BACKGROUND DENSE STARFIELD & CELESTIAL CONSTELLATION
    ========================================================================== */
 function initBackgroundParticles() {
   const canvas = document.getElementById('particle-canvas');
@@ -90,32 +89,101 @@ function initBackgroundParticles() {
   let width = (canvas.width = window.innerWidth);
   let height = (canvas.height = window.innerHeight);
 
+  let mouseX = -9999;
+  let mouseY = -9999;
+  let mouseActive = false;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    mouseActive = true;
+  }, { passive: true });
+
+  window.addEventListener('mouseleave', () => {
+    mouseActive = false;
+    mouseX = -9999;
+    mouseY = -9999;
+  }, { passive: true });
+
+  let lastScrollY = window.scrollY;
+  let scrollDiff = 0;
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.scrollY;
+    scrollDiff = currentScroll - lastScrollY;
+    lastScrollY = currentScroll;
+  }, { passive: true });
+
   let resizeTimeout;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
+      rebuildParticles();
     }, 150);
   }, { passive: true });
 
   const isMobile = window.innerWidth < 768;
-  const particleCount = isMobile ? 22 : Math.min(Math.floor(window.innerWidth / 24), 50);
-  const particles = [];
+  // Dense starfield: 135 stars on desktop, 55 on mobile
+  const particleCount = isMobile ? 55 : Math.min(Math.floor(window.innerWidth / 13), 135);
+  let particles = [];
 
-  for (let i = 0; i < particleCount; i++) {
-    particles.push({
+  function createStar() {
+    const tier = Math.random();
+    let radius, baseAlpha, isBeacon, canConnect, parallaxSpeed;
+
+    if (tier < 0.45) {
+      // 1. Distant Stardust motes (ambient background shimmer)
+      radius = Math.random() * 1.3 + 1.2;
+      baseAlpha = Math.random() * 0.25 + 0.35;
+      isBeacon = false;
+      canConnect = false;
+      parallaxSpeed = 0.04;
+    } else if (tier < 0.83) {
+      // 2. Midfield Constellation Stars (geometric network)
+      radius = Math.random() * 1.8 + 2.8;
+      baseAlpha = Math.random() * 0.25 + 0.60;
+      isBeacon = false;
+      canConnect = true;
+      parallaxSpeed = 0.08;
+    } else {
+      // 3. Hero Beacon Stars & Pulsars (prominent, glowing & diamond sparkles)
+      radius = Math.random() * 2.5 + 4.8;
+      baseAlpha = Math.random() * 0.15 + 0.85;
+      isBeacon = true;
+      canConnect = true;
+      parallaxSpeed = 0.14;
+    }
+
+    return {
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      radius: Math.random() * 1.8 + 1,
-      color: i % 2 === 0 ? 'rgba(255, 255, 255, 0.45)' : 'rgba(161, 161, 170, 0.35)'
-    });
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      radius,
+      baseAlpha,
+      isBeacon,
+      canConnect,
+      parallaxSpeed,
+      twinkleSpeed: Math.random() * 0.03 + 0.015,
+      twinklePhase: Math.random() * Math.PI * 2
+    };
   }
 
-  const maxDist = 105;
+  function rebuildParticles() {
+    particles = [];
+    const count = window.innerWidth < 768 ? 55 : Math.min(Math.floor(window.innerWidth / 13), 135);
+    for (let i = 0; i < count; i++) {
+      particles.push(createStar());
+    }
+  }
+
+  rebuildParticles();
+
+  const maxDist = isMobile ? 95 : 125;
   const maxDistSq = maxDist * maxDist;
+  const mouseDist = 140;
+  const mouseDistSq = mouseDist * mouseDist;
 
   function render() {
     if (document.hidden) {
@@ -125,35 +193,96 @@ function initBackgroundParticles() {
 
     ctx.clearRect(0, 0, width, height);
 
+    // Apply scroll parallax dampening
+    const currentScrollDiff = scrollDiff;
+    scrollDiff *= 0.85; // Smooth deceleration
+
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
+
+      // Update position with continuous drift and scroll parallax
       p.x += p.vx;
-      p.y += p.vy;
+      p.y += p.vy - currentScrollDiff * p.parallaxSpeed;
 
-      if (p.x < 0) p.x = width;
-      else if (p.x > width) p.x = 0;
-      if (p.y < 0) p.y = height;
-      else if (p.y > height) p.y = 0;
+      // Wrap around screen boundaries
+      if (p.x < -10) p.x = width + 10;
+      else if (p.x > width + 10) p.x = -10;
+      if (p.y < -10) p.y = height + 10;
+      else if (p.y > height + 10) p.y = -10;
 
+      // Twinkle calculation
+      p.twinklePhase += p.twinkleSpeed;
+      const currentAlpha = Math.min(1, Math.max(0.12, p.baseAlpha + Math.sin(p.twinklePhase) * 0.28));
+
+      // 1. Draw glowing aura for Hero Beacon Stars
+      if (p.isBeacon && currentAlpha > 0.35) {
+        const glowRadius = p.radius * 3.4;
+        const glow = ctx.createRadialGradient(p.x, p.y, p.radius * 0.3, p.x, p.y, glowRadius);
+        glow.addColorStop(0, `rgba(255, 255, 255, ${currentAlpha * 0.38})`);
+        glow.addColorStop(0.5, `rgba(228, 228, 231, ${currentAlpha * 0.12})`);
+        glow.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, glowRadius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 4-point diamond sparkle glint
+        const crossLen = p.radius * (1.8 + Math.sin(p.twinklePhase) * 0.5);
+        ctx.beginPath();
+        ctx.moveTo(p.x - crossLen, p.y);
+        ctx.lineTo(p.x + crossLen, p.y);
+        ctx.moveTo(p.x, p.y - crossLen);
+        ctx.lineTo(p.x, p.y + crossLen);
+        ctx.strokeStyle = `rgba(255, 255, 255, ${currentAlpha * 0.45})`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+
+      // 2. Draw star body
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      ctx.fillStyle = p.color;
+      ctx.fillStyle = p.isBeacon
+        ? `rgba(255, 255, 255, ${currentAlpha})`
+        : `rgba(244, 244, 245, ${currentAlpha})`;
       ctx.fill();
 
-      for (let j = i + 1; j < particles.length; j++) {
-        const p2 = particles[j];
-        const dx = p.x - p2.x;
-        const dy = p.y - p2.y;
-        const distSq = dx * dx + dy * dy;
+      // 3. Mouse interactive proximity tether
+      if (mouseActive) {
+        const mdx = p.x - mouseX;
+        const mdy = p.y - mouseY;
+        const mDistSq = mdx * mdx + mdy * mdy;
 
-        if (distSq < maxDistSq) {
-          const dist = Math.sqrt(distSq);
+        if (mDistSq < mouseDistSq) {
+          const mDist = Math.sqrt(mDistSq);
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = `rgba(255, 255, 255, ${0.12 * (1 - dist / maxDist)})`;
+          ctx.lineTo(mouseX, mouseY);
+          ctx.strokeStyle = `rgba(255, 255, 255, ${0.18 * (1 - mDist / mouseDist)})`;
           ctx.lineWidth = 0.75;
           ctx.stroke();
+        }
+      }
+
+      // 4. Draw geometric constellation lines between connectable stars
+      if (p.canConnect) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          if (!p2.canConnect) continue;
+
+          const dx = p.x - p2.x;
+          const dy = p.y - p2.y;
+          const distSq = dx * dx + dy * dy;
+
+          if (distSq < maxDistSq) {
+            const dist = Math.sqrt(distSq);
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.13 * (1 - dist / maxDist)})`;
+            ctx.lineWidth = 0.65;
+            ctx.stroke();
+          }
         }
       }
     }
@@ -738,41 +867,21 @@ function initAnimeBackgroundParallax() {
   const orb3 = document.querySelector('.orb-layer-3');
   const orb4 = document.querySelector('.orb-layer-4');
   const orb5 = document.querySelector('.orb-layer-5');
-  const cathodeScaler = document.getElementById('cathodeScaler');
-  const cathodeFrame = document.getElementById('cathodeFrame');
 
-  if (!orb1 && !orb2 && !orb3 && !orb4 && !orb5 && !cathodeScaler) return;
+  if (!orb1 && !orb2 && !orb3 && !orb4 && !orb5) return;
 
   let ticking = false;
-  let lastScrollY = window.scrollY;
 
   function updateParallax() {
     const scrollY = window.scrollY;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight || 1;
     const scrollProgress = Math.min(Math.max(scrollY / docHeight, 0), 1);
-    const scrollVelocity = Math.abs(scrollY - lastScrollY);
-    lastScrollY = scrollY;
 
     if (orb1) orb1.style.transform = `translate3d(${Math.sin(scrollProgress * Math.PI) * 35}px, ${scrollY * 0.16}px, 0)`;
     if (orb2) orb2.style.transform = `translate3d(${-scrollY * 0.08}px, ${-scrollY * 0.14}px, 0) rotate(${scrollProgress * 25}deg)`;
     if (orb3) orb3.style.transform = `translate3d(${Math.sin(scrollProgress * Math.PI * 1.5) * 40}px, ${-scrollY * 0.1}px, 0)`;
     if (orb4) orb4.style.transform = `translate3d(${scrollY * 0.1}px, ${-scrollY * 0.18}px, 0)`;
     if (orb5) orb5.style.transform = `translate3d(${-Math.cos(scrollProgress * Math.PI) * 35}px, ${scrollY * 0.1}px, 0)`;
-
-    // CATHODE WIREFRAME SCROLL MOTION & ISOMETRIC CAMERA ORBIT
-    if (cathodeScaler) {
-      const cathodeParallaxY = -scrollY * 0.06;
-      const rotX = (2.2 - scrollProgress * 4.5).toFixed(2);
-      const rotY = (-3.2 + scrollProgress * 6.5).toFixed(2);
-      const scale = (1 + scrollProgress * 0.04).toFixed(3);
-      cathodeScaler.style.transform = `translate3d(0, ${cathodeParallaxY}px, 0) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${scale})`;
-    }
-
-    // Scroll Velocity Reactive Phosphor Shimmer
-    if (cathodeFrame && scrollVelocity > 4) {
-      const shimmer = Math.min(0.14, scrollVelocity * 0.0025);
-      cathodeFrame.style.opacity = (0.42 + shimmer).toFixed(2);
-    }
 
     ticking = false;
   }
@@ -785,74 +894,6 @@ function initAnimeBackgroundParallax() {
   }, { passive: true });
 
   updateParallax();
-}
-
-/**
- * CATHODE RETRO-TECH WIREFRAME HUD (Anime.js Idle Float & CRT Voltage Flicker)
- * Keeps the isometric schematic constantly alive at background with authentic CRT flicker & motion
- */
-function initCathodeWireframeBackground() {
-  const scaler = document.getElementById('cathodeScaler');
-  const frame = document.getElementById('cathodeFrame');
-
-  if (!scaler || !frame) return;
-
-  // 1. Anime.js continuous 3D floating & breathing idle motion
-  animeAnimate(scaler, {
-    translateY: [-10, 10],
-    rotateX: [2, -2],
-    rotateY: [-3.5, 3.5],
-    rotateZ: [-0.6, 0.6],
-    duration: 8000,
-    direction: 'alternate',
-    loop: true,
-    easing: 'easeInOutSine'
-  });
-
-  // 2. Randomized CRT Cathode Micro-Twitch / Voltage Glitch
-  let glitchTimeout;
-  function scheduleGlitch() {
-    if (document.hidden) {
-      glitchTimeout = setTimeout(scheduleGlitch, 2000);
-      return;
-    }
-
-    const nextDelay = Math.random() * 3500 + 2000; // Between 2s and 5.5s
-    glitchTimeout = setTimeout(() => {
-      triggerCathodeGlitch();
-      scheduleGlitch();
-    }, nextDelay);
-  }
-
-  function triggerCathodeGlitch() {
-    if (!frame || document.hidden) return;
-    const jitterX = (Math.random() - 0.5) * 3;
-    const jitterY = (Math.random() - 0.5) * 2;
-
-    animeAnimate(frame, {
-      translateX: [0, jitterX, -jitterX * 0.6, 0],
-      translateY: [0, jitterY, -jitterY * 0.6, 0],
-      filter: [
-        'drop-shadow(0 0 16px rgba(255, 255, 255, 0.14)) contrast(1.08) brightness(1)',
-        'drop-shadow(0 0 30px rgba(255, 255, 255, 0.35)) contrast(1.22) brightness(1.24)',
-        'drop-shadow(0 0 10px rgba(255, 255, 255, 0.08)) contrast(0.98) brightness(0.90)',
-        'drop-shadow(0 0 16px rgba(255, 255, 255, 0.14)) contrast(1.08) brightness(1)'
-      ],
-      duration: 160,
-      easing: 'steps(3)'
-    });
-  }
-
-  scheduleGlitch();
-
-  // Pause glitch timer on tab change to conserve CPU and battery
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      clearTimeout(glitchTimeout);
-    } else {
-      scheduleGlitch();
-    }
-  });
 }
 
 /**
