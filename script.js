@@ -109,7 +109,7 @@ function initBackgroundParticles() {
       vx: (Math.random() - 0.5) * 0.4,
       vy: (Math.random() - 0.5) * 0.4,
       radius: Math.random() * 1.8 + 1,
-      color: i % 2 === 0 ? 'rgba(79, 70, 229, 0.45)' : 'rgba(6, 182, 212, 0.45)'
+      color: i % 2 === 0 ? 'rgba(255, 255, 255, 0.45)' : 'rgba(161, 161, 170, 0.35)'
     });
   }
 
@@ -150,7 +150,7 @@ function initBackgroundParticles() {
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = `rgba(99, 102, 241, ${0.14 * (1 - dist / maxDist)})`;
+          ctx.strokeStyle = `rgba(255, 255, 255, ${0.12 * (1 - dist / maxDist)})`;
           ctx.lineWidth = 0.75;
           ctx.stroke();
         }
@@ -528,7 +528,7 @@ function openProjectModal(projectId) {
 
     <div>
       <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.5rem;">Technical Challenge &amp; Solution</h3>
-      <p style="color:var(--text-secondary); line-height:1.7; font-size:0.95rem; background:var(--bg-page); padding:1rem; border-radius:var(--radius-sm); border:1px solid rgba(226, 232, 240, 0.9);">
+      <p style="color:var(--text-secondary); line-height:1.7; font-size:0.95rem; background:var(--bg-page); padding:1rem; border-radius:var(--radius-sm); border:1px solid rgba(255, 255, 255, 0.1);">
         ${data.challenges}
       </p>
     </div>
@@ -980,7 +980,7 @@ function createParticleBurst(x, y) {
   document.body.appendChild(container);
 
   const particleCount = 14;
-  const colors = ['#60A5FA', '#38BDF8', '#818CF8', '#0284C7', '#FFFFFF'];
+  const colors = ['#FFFFFF', '#E4E4E7', '#D4D4D8', '#A1A1AA', '#71717A'];
 
   for (let i = 0; i < particleCount; i++) {
     const p = document.createElement('div');
