@@ -105,6 +105,21 @@ function initBackgroundParticles() {
     mouseY = -9999;
   }, { passive: true });
 
+  // Mobile Touch Support for Interactive Starfield
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0]) {
+      mouseX = e.touches[0].clientX;
+      mouseY = e.touches[0].clientY;
+      mouseActive = true;
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => {
+    mouseActive = false;
+    mouseX = -9999;
+    mouseY = -9999;
+  }, { passive: true });
+
   let lastScrollY = window.scrollY;
   let scrollDiff = 0;
   window.addEventListener('scroll', () => {
@@ -327,14 +342,40 @@ function initNavigation() {
   }, { passive: true });
 
   if (mobileToggle && mobileMenu) {
-    mobileToggle.addEventListener('click', () => {
-      mobileMenu.classList.toggle('open');
+    const toggleIcon = mobileToggle.querySelector('i');
+    mobileToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = mobileMenu.classList.toggle('open');
+      mobileToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      if (toggleIcon) {
+        toggleIcon.className = isOpen ? 'bx bx-x' : 'bx bx-menu';
+      }
     });
 
     document.querySelectorAll('.mobile-nav-link').forEach(link => {
       link.addEventListener('click', () => {
         mobileMenu.classList.remove('open');
+        mobileToggle.setAttribute('aria-expanded', 'false');
+        if (toggleIcon) toggleIcon.className = 'bx bx-menu';
       });
+    });
+
+    // Close mobile drawer when clicking outside
+    document.addEventListener('click', (e) => {
+      if (mobileMenu.classList.contains('open') && !mobileMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
+        mobileMenu.classList.remove('open');
+        mobileToggle.setAttribute('aria-expanded', 'false');
+        if (toggleIcon) toggleIcon.className = 'bx bx-menu';
+      }
+    });
+
+    // Close mobile drawer on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+        mobileMenu.classList.remove('open');
+        mobileToggle.setAttribute('aria-expanded', 'false');
+        if (toggleIcon) toggleIcon.className = 'bx bx-menu';
+      }
     });
   }
 
@@ -1022,6 +1063,11 @@ function initNominalBehindToFrontScroll() {
  * Buttery 120fps hardware-accelerated tilt on mouse move, zero jank
  */
 function init3DCardTilt() {
+  // Disable 3D tilt computations on mobile/touch-only devices for smoother scrolling and battery savings
+  if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none)').matches) {
+    return;
+  }
+
   const cards = document.querySelectorAll('.project-card, .skill-cat-card, .mini-card');
 
   cards.forEach(card => {
@@ -1094,7 +1140,14 @@ function initSectionScrollReveals() {
 function initButtonParticleBurst() {
   document.querySelectorAll('.btn, .btn-primary, .btn-ghost').forEach(btn => {
     btn.addEventListener('click', (e) => {
-      createParticleBurst(e.clientX, e.clientY);
+      let x = e.clientX;
+      let y = e.clientY;
+      if ((!x && !y) && btn) {
+        const rect = btn.getBoundingClientRect();
+        x = rect.left + rect.width / 2;
+        y = rect.top + rect.height / 2;
+      }
+      createParticleBurst(x, y);
     });
   });
 }
